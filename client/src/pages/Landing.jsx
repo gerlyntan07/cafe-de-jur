@@ -2,7 +2,8 @@ import React from 'react'
 import Header from '../components/Header';
 import coffee from '../assets/landing-coffee.png';
 import beans from '../assets/beans.png';
-import doodle from '../assets/coffee-doodle.png'
+import beans2 from '../assets/beans2.png';
+import waves from '../assets/brownwaves.png'
 import { Link } from 'react-router-dom';
 
 function Landing() {
@@ -15,27 +16,26 @@ function Landing() {
   return (
     <>
       <Header />
-      <div className='w-[100%] h-screen bg-red-50 flex flex-col md:flex-row-reverse'>
-        <div className='w-[100%] h-[25%] bg-white'>
-          <div style={{ backgroundImage: `url(${doodle})` }} className='bg-cover bg-center h-full w-full flex items-center justify-center overflow-visible relative bg-opacity-100'>
-            <img src={coffee} alt="Coffee" className='w-[50%] absolute bottom-[-20%] z-10' />
-          </div>
-        </div>
+      <div className='h-[100dvh] w-full items-center flex flex-col justify-center'>
+        <p className='font-libre text-[2.5rem] md:text-[4rem] md:leading-none'>CAFÉ de JÚR</p>
+        <p className='font-inika text-[1rem] md:text-[1rem]'>EST. 2024</p>
+        <div className='h-[2px] w-[75%] bg-[#6F4E37] my-4 md:w-[45%] md:my-6' />
+        <p className='font-inika text-[0.8rem] mb-[5rem] md:text-[1rem]'>START YOUR DAY WITH US</p>
 
-        <div className='w-[100%] h-[75%] bg-lightBrown'>
-          <div style={{ backgroundImage: `url(${beans})` }} className='bg-cover bg-center h-full w-full flex flex-col items-center justify-start overflow-visible relative bg-opacity-100'>
-            <p className='font-libre text-[5rem] mt-[8rem] leading-none'>CAFÉ de</p>
-            <div className='flex flex-row items-end gap-8'>
-              <p className='font-libre text-[5rem]'>JÚR</p>
-              <p className='font-libre text-[1.5rem] mb-5'>EST. 2024</p>
-            </div>
+        <Link className='bg-darkBrown text-white font-inika text-center py-2 px-5 rounded-full hover:bg-darkAccent focus:outline-2 focus:outline-offset-2 focus:outline-darkAccent z-[100]'>ORDER NOW</Link>
 
-            <div className='w-full items-center justify-center md:w-[50%] flex items-center md:justify-end md:mt-10 mt-15'>
-              <a href="" className='bg-darkBrown text-white font-inika md:ml-[8%] text-center py-2 px-5 rounded-full hover:bg-[#895d3e] focus:outline-2 focus:outline-offset-2 focus:outline-[#895d3e]'>ORDER NOW</a>
-            </div>
-          </div>
-        </div>
-      </div >
+        <div
+          style={{ backgroundImage: `url(${waves})` }}
+          className="bg-cover w-full absolute bottom-0 bg-top h-[20rem] md:h-[18rem] 2xl:h-[30rem]"
+        ></div>
+        
+        <div
+          style={{ backgroundImage: `url(${beans2})` }}
+          className="bg-cover w-full absolute bottom-0 bg-top h-[10rem] md:h-[20rem] 2xl:h-[30rem]"
+        ></div>
+
+        <div className='w-full h-[1rem] bg-[#6F4E37] absolute bottom-0' />
+      </div>
     </>
   )
 }

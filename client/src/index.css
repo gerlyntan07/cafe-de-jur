@@ -3,8 +3,9 @@
 @import "tailwindcss";
 
 @theme {
-  --color-darkBrown: #6F4E37;
+  --color-darkBrown: #3C2717;
   --color-lightBrown: #BE9B7B;
+  --color-darkAccent: #6F4E37;
   --font-libre: "Libre Caslon Display", serif;
   --font-inika: "Inika", serif;
   --color-lightBrownBG: #DEC28C;
