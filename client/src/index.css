@@ -9,6 +9,7 @@
   --font-libre: "Libre Caslon Display", serif;
   --font-inika: "Inika", serif;
   --color-lightBrownBG: #DEC28C;
+  --color-inputGray: #E5E5E5;
 }
 * {
   box-sizing: border-box;

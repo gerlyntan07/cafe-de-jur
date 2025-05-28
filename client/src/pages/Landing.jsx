@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header';
-import coffee from '../assets/landing-coffee.png';
-import beans from '../assets/beans.png';
 import beans2 from '../assets/beans2.png';
 import waves from '../assets/brownwaves.png'
 import menubg from '../assets/menubg.png';
@@ -14,24 +12,26 @@ import menu4 from '../assets/menu4.png';
 import food1 from '../assets/food1.png';
 import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
+import LoginPopup from '../components/LoginPopup.jsx';
 
 function Landing() {
-
-  const hline1 = (window.innerWidth) / 1.5;
-  const hline2 = (window.innerWidth) - hline1;
-
-
-  const cafeName = 'font-libre text-[5.5rem] ml-[10%] leading-30'
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  
+      const toggleLogin = () => {        
+          setIsLoginOpen(prev => !prev);          
+      }
+  
   return (
     <>
-      <Header />
-      <div id='home' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
+      <Header toggleLogin={toggleLogin} />
+      {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
+      <section id='home' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
         <p className='font-libre text-[2.5rem] md:text-[4rem] md:leading-none 2xl:text-[7rem]'>CAFÉ de JÚR</p>
         <p className='font-inika text-[1rem] md:text-[1rem] 2xl:text-[1.7rem]'>EST. 2024</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] my-4 md:w-[45%] md:my-6' />
         <p className='font-inika text-[0.8rem] mb-[5rem] md:text-[1rem] 2xl:text-[1.2rem]'>START YOUR DAY WITH US</p>
 
-        <Link className='bg-darkBrown text-white font-inika text-[15px] text-center py-2 px-5 rounded-full hover:bg-darkAccent focus:outline-2 focus:outline-offset-2 focus:outline-darkAccent z-[100] 2xl:text-[1.5rem]'>ORDER NOW</Link>
+        <Link className='bg-darkBrown text-white font-inika text-[15px] text-center py-2 px-5 rounded-full hover:bg-darkAccent focus:outline-2 focus:outline-offset-2 focus:outline-darkAccent z-[100] 2xl:text-[17px]'>ORDER NOW</Link>
 
         <div
           style={{ backgroundImage: `url(${waves})` }}
@@ -44,11 +44,11 @@ function Landing() {
         ></div>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
-      </div>
+      </section>
 
       {/* MENU */}
-      <div id='menu' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] md:pb-[10rem] md:pt-[7rem]'>
-        <p className='font-libre text-[18px] md:text-[20px]'>DRINKS MENU</p>
+      <section id='menu' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] md:pb-[10rem] md:pt-[7rem]'>
+        <p className='font-libre text-[18px] md:text-[20px] 2xl:text-[23px]'>DRINKS MENU</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
 
         <div className='w-full flex flex-col md:flex-row items-center justify-center'>
@@ -62,7 +62,7 @@ function Landing() {
           <Link className='text-right text-[15px] font-libre underline mt-4 md:text-[18px] md:mb-[0rem]'>View All {'>'}</Link>
         </div>
 
-        <p className='font-libre text-[18px] mt-[3rem] md:text-[20px] md:mt-[5rem]'>FOODS MENU</p>
+        <p className='font-libre text-[18px] mt-[3rem] md:text-[20px] md:mt-[5rem] 2xl:text-[23px]'>FOODS MENU</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
 
         <div className='w-full flex flex-col md:flex-row items-center justify-center'>
@@ -77,7 +77,7 @@ function Landing() {
         </div>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
-      </div>
+      </section>      
     </>
   )
 }

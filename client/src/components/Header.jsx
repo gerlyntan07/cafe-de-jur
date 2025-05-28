@@ -5,10 +5,11 @@ import { FiAlignRight } from "react-icons/fi";
 import { BsX } from "react-icons/bs";
 import { HashLink } from 'react-router-hash-link';
 
-function Header() {
+function Header({toggleLogin}) {
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [activeHash, setActiveHash] = useState('');
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,16 +26,51 @@ function Header() {
         setMenuOpen(prev => !prev);
     }
 
-    const isActivePath = (path) => location.pathname === path;
-    const isActiveHash = (hash) => location.hash === hash;
+    useEffect(() => {
+        const sectionIds = ['home', 'menu', 'about', 'contact', 'loginPopup', 'signup'];
+        const sections = sectionIds.map(id => document.getElementById(id));
 
-    const desktopLeftLinkClass = (active) =>
-        `font-inika h-full text-[15px] flex items-center py-2 ${active ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'
-        }`;
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActiveHash(`#${entry.target.id}`);
+                    }
+                });
+            },
+            {
+                rootMargin: '-50% 0px -40% 0px', // triggers around section middle
+                threshold: 0.1
+            }
+        );
 
-    const mobileLinkClass = (active) =>
-        `w-[90%] rounded font-inika text-[15px] text-center px-15 py-3 ${active ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'
-        }`;
+        sections.forEach(section => {
+            if (section) observer.observe(section);
+        });
+
+        return () => {
+            sections.forEach(section => {
+                if (section) observer.unobserve(section);
+            });
+        };
+    }, []);
+
+
+    const isActiveHash = (hash) => {
+        const normalizedHash = hash.replace('/#', '#');
+        return activeHash === normalizedHash;
+    };
+
+
+
+
+    const desktopLeftLinkClass = (hash) =>
+        `font-inika h-full text-[15px] flex items-center py-2 ${isActiveHash(hash) ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'}`;
+
+
+    const mobileLinkClass = (hash) =>
+        `w-[90%] rounded font-inika text-[15px] text-center px-15 py-3 ${isActiveHash(hash) ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'}`;
+
 
     return (
         <>
@@ -60,15 +96,15 @@ function Header() {
                         </div>
                     </div>
 
-                    <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[1000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
+                    <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
                         } flex flex-col items-center pt-6`}>
                         <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
-                        <HashLink className={mobileLinkClass(isActivePath('/'))} smooth to="/">HOME</HashLink>
-                        <HashLink className={mobileLinkClass(isActivePath('/signup'))} smooth to="/#menu">MENU</HashLink>
-                        <HashLink className={mobileLinkClass(isActiveHash('#about'))} smooth to="/#about">ABOUT</HashLink>
-                        <HashLink className={mobileLinkClass(isActiveHash('#contact'))} smooth to="/#contact">CONTACT</HashLink>
-                        <Link className={mobileLinkClass(isActivePath('/login'))} to="/login">LOG IN</Link>
-                        <Link className={mobileLinkClass(isActivePath('/signup'))} to="/signup">SIGN UP</Link>
+                        <HashLink className={mobileLinkClass('#home')} smooth to="#home">HOME</HashLink>
+                        <HashLink className={mobileLinkClass('#menu')} smooth to="#menu">MENU</HashLink>
+                        <HashLink className={mobileLinkClass('#about')} smooth to="#about">ABOUT</HashLink>
+                        <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
+                        <HashLink className={mobileLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
+                        <HashLink className={mobileLinkClass('#signup')} to="#signup">SIGN UP</HashLink>
                     </div>
                 </>
             ) : (
@@ -87,16 +123,16 @@ function Header() {
                             <img src={logo} alt="" className="w-[40%] overflow-visible object-contain 2xl:w-[35%]" />
                         </div>
                         <div className="w-[60%] h-full flex flex-row items-center justify-center gap-15 2xl:gap-20">
-                            <HashLink className={desktopLeftLinkClass(isActivePath('/'))} smooth to="/">HOME</HashLink>
-                            <HashLink className={desktopLeftLinkClass(isActivePath('/signup'))} smooth to="/#menu">MENU</HashLink>
-                            <HashLink className={desktopLeftLinkClass(isActiveHash('#about'))} smooth to="/#about">ABOUT</HashLink>
-                            <HashLink className={desktopLeftLinkClass(isActiveHash('#contact'))} smooth to="/#contact">CONTACT</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#home')} smooth to="#home">HOME</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#menu')} smooth to="#menu">MENU</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#about')} smooth to="#about">ABOUT</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#contact')} smooth to="#contact">CONTACT</HashLink>
                         </div>
 
                         <div className='w-[20%] h-full flex flex-row items-center justify-center gap-5'>
-                            <Link className={desktopLeftLinkClass(isActivePath('/login'))} to="/login">LOG IN</Link>
+                            <HashLink className={desktopLeftLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
                             <p className={rightMenuTexts}>|</p>
-                            <Link className={desktopLeftLinkClass(isActivePath('/signup'))} to="/signup">SIGN UP</Link>
+                            <HashLink className={desktopLeftLinkClass('#signup')} to="#signup">SIGN UP</HashLink>
                         </div>
                     </div>
                 </div>
