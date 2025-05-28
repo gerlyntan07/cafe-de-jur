@@ -65,11 +65,11 @@ function Header({toggleLogin}) {
 
 
     const desktopLeftLinkClass = (hash) =>
-        `font-inika h-full text-[15px] flex items-center py-2 ${isActiveHash(hash) ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'}`;
+        `font-inika h-full text-[15px] flex items-center py-2 transition-all duration-100 ${isActiveHash(hash) ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'}`;
 
 
     const mobileLinkClass = (hash) =>
-        `w-[90%] rounded font-inika text-[15px] text-center px-15 py-3 ${isActiveHash(hash) ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'}`;
+        `w-[90%] rounded font-inika text-[15px] text-center px-15 py-3 transition-all duration-100 ${isActiveHash(hash) ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'}`;
 
 
     return (
