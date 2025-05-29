@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header';
 import beans2 from '../assets/beans2.png';
 import waves from '../assets/brownwaves.png'
@@ -10,14 +10,21 @@ import menu3 from '../assets/menu3.png';
 import food1 from '../assets/food1.png';
 import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
+import axios from 'axios';
 
 function Landing() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  
-      const toggleLogin = () => {        
-          setIsLoginOpen(prev => !prev);          
-      }
-    
+
+  const toggleLogin = () => {
+    setIsLoginOpen(prev => !prev);
+  }
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/login')
+    .then((res) => console.log(res.data.user))
+    .catch((err) => console.log(err));
+  },[]);
+
   return (
     <>
       <Header toggleLogin={toggleLogin} />
@@ -47,13 +54,13 @@ function Landing() {
       <div id='menu' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
         <p className='font-libre text-[18px] md:text-[20px]'>FOODS MENU</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
-        
-          <div className='flex flex-row flex-wrap w-[80%] md:w-[70%] items-center justify-evenly md:justify-center gap-8'>
-            <MenuTypes imgSource={menu3} wSize='h-[120%]' menuType='Beverages' />
-            <MenuTypes imgSource={food1} wSize='h-[110%] rotate-180' menuType='Croffles' />
-            <MenuTypes imgSource={food2} wSize='h-[105%]' menuType='Silog Meals' />
-            <MenuTypes imgSource={food3} wSize='h-[110%] rotate-180' menuType='Pasta' />
-          </div>        
+
+        <div className='flex flex-row flex-wrap w-[80%] md:w-[70%] items-center justify-evenly md:justify-center gap-8'>
+          <MenuTypes imgSource={menu3} wSize='h-[120%]' menuType='Beverages' />
+          <MenuTypes imgSource={food1} wSize='h-[110%] rotate-180' menuType='Croffles' />
+          <MenuTypes imgSource={food2} wSize='h-[105%]' menuType='Silog Meals' />
+          <MenuTypes imgSource={food3} wSize='h-[110%] rotate-180' menuType='Pasta' />
+        </div>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
       </div>
