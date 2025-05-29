@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2025 at 09:00 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 29, 2025 at 01:14 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,15 +36,16 @@ CREATE TABLE `account` (
   `address` varchar(200) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `userRole` enum('Admin','Customer') NOT NULL
+  `userRole` enum('Admin','Customer') NOT NULL,
+  `accStatus` enum('Pending','Registered') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `sex`, `birthday`, `address`, `username`, `password`, `userRole`) VALUES
-(1, 'gerlyn', 'tan', 'F', '2003-09-07', 'LPC', 'tangerine', '123', 'Admin');
+INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `sex`, `birthday`, `address`, `username`, `password`, `userRole`, `accStatus`) VALUES
+(1, 'gerlyn', 'tan', 'F', '2003-09-07', 'LPC', 'tangerine', '123', 'Admin', 'Pending');
 
 --
 -- Indexes for dumped tables
