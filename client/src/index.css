@@ -1,15 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noticia+Text:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-darkBrown: #3C2717;
   --color-lightBrown: #BE9B7B;
   --color-darkAccent: #6F4E37;
-  --font-libre: "Libre Caslon Display", serif;
-  --font-inika: "Inika", serif;
   --color-lightBrownBG: #DEC28C;
   --color-inputGray: #E5E5E5;
+  --font-libre: "Libre Caslon Display", serif;
+  --font-inika: "Inika", serif;
+  --font-noticia: "Noticia Text", serif;
 }
 * {
   box-sizing: border-box;
