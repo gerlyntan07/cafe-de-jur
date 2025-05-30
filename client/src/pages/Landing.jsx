@@ -13,6 +13,7 @@ import food3 from '../assets/food3.png';
 import axios from 'axios';
 
 function Landing() {
+  const API = import.meta.env.VITE_API_URL;
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const toggleLogin = () => {
@@ -20,7 +21,7 @@ function Landing() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:3001/api/login')
+    axios.get(`${API}/login`)
     .then((res) => console.log(res.data.user))
     .catch((err) => console.log(err));
   },[]);
