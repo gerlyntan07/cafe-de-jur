@@ -3,16 +3,16 @@ import Header from '../components/Header'
 import LoginPopup from '../components/LoginPopup';
 import { Link, useLocation } from "react-router-dom";
 import menubg from '../assets/menubg.png';
-import axios from 'axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
+import axios from '../hooks/AxiosConfig.js';
 
 function SignUp() {
     useEffect(() => {
         document.title = "Sign Up | CAFÉ de JÚR";
-      }, []);
-    const API = import.meta.env.VITE_API_URL;
+    }, []);
+
     const location = useLocation();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const [values, setValues] = useState({
@@ -33,7 +33,7 @@ function SignUp() {
 
     const toggleLogin = () => {
         setIsLoginOpen(prev => !prev);
-        if (isLoginOpen){
+        if (isLoginOpen) {
             document.title = "Sign Up | CAFÉ de JÚR";
         }
     }
@@ -87,7 +87,7 @@ function SignUp() {
 
         if (isPassValid) {
             try {
-                const res = await axios.post(`${API}/register`, values);
+                const res = await axios.post(`/register`, values);
                 if (res.data.error === 'Email already exists') {
                     setIsFailed(true);
                     setIsLoading(false);

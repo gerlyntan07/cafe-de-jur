@@ -10,14 +10,12 @@ import menu3 from '../assets/menu3.png';
 import food1 from '../assets/food1.png';
 import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
-import axios from 'axios';
 
 function Landing() {
   useEffect(() => {
     document.title = "CAFÉ de JÚR";
   }, []);
-
-  const API = import.meta.env.VITE_API_URL;
+  
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const toggleLogin = () => {
@@ -25,13 +23,7 @@ function Landing() {
         if (isLoginOpen){
             document.title = "CAFÉ de JÚR";
         }
-    }
-
-  useEffect(() => {
-    axios.get(`${API}/login`)
-    .then((res) => console.log(res.data.user))
-    .catch((err) => console.log(err));
-  },[]);
+    }  
 
   return (
     <>
