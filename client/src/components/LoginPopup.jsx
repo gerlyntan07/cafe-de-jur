@@ -5,6 +5,10 @@ import logo from '/cafedejur-logo.png';
 
 function LoginPopup({toggleLogin}) {
     useEffect(() => {
+            document.title = "Log In | CAFÉ de JÚR";
+          }, []);
+          
+    useEffect(() => {
     document.body.style.overflow = 'hidden';
 
     return () => {

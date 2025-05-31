@@ -21,9 +21,9 @@ router.post('/register', async (req, res) => {
         const values = [
             firstname,
             lastname,
-            email,            
+            email,
             hashedPassword,
-            phone,
+            '+63' + phone,
             'Customer'
         ];
         db.query(insertValues, values, (err, accRes) => {

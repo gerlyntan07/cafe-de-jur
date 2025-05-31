@@ -6,11 +6,12 @@ import menubg from '../assets/menubg.png';
 import axios from 'axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
-import CheckIcon from '@mui/icons-material/Check';
+import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 
 function SignUp() {
+    useEffect(() => {
+        document.title = "Sign Up | CAFÉ de JÚR";
+      }, []);
     const API = import.meta.env.VITE_API_URL;
     const location = useLocation();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -32,6 +33,9 @@ function SignUp() {
 
     const toggleLogin = () => {
         setIsLoginOpen(prev => !prev);
+        if (isLoginOpen){
+            document.title = "Sign Up | CAFÉ de JÚR";
+        }
     }
     useEffect(() => {
         // When route changes, and hash is #signup, scroll to that element
@@ -54,6 +58,7 @@ function SignUp() {
     const handleCheckboxChange = (e) => {
         const { name, checked } = e.target;
         setValues(prev => ({ ...prev, [name]: checked }));
+        setNotChecked(false);
     };
 
     useEffect(() => {
@@ -72,38 +77,46 @@ function SignUp() {
             return;
         }
 
+        const passwordMatch = values.password === values.confirmPassword;
+        setIsPassValid(passwordMatch);
+
+        if (!passwordMatch) return;
+
+        setIsFailed(false);
         setIsLoading(true);
 
         if (isPassValid) {
             try {
                 const res = await axios.post(`${API}/register`, values);
-                if(res.data.error === 'Email already exists') {
+                if (res.data.error === 'Email already exists') {
                     setIsFailed(true);
                     setIsLoading(false);
                     return;
+                } else if (res.data.message === 'Registration successful! Please verify your email.') {
+                    setIsLoading(false);
+                    setIsSubmitted(true);
+                    setValues({
+                        firstname: '',
+                        lastname: '',
+                        email: '',
+                        phone: '',
+                        password: '',
+                        confirmPassword: '',
+                        consent: false,
+                        dataPriv: false
+                    })
+                    setNotChecked(false);
                 }
-                setIsLoading(false);
-                setIsSubmitted(true);
-                setValues({
-                    firstname: '',
-                    lastname: '',
-                    email: '',
-                    phone: '',
-                    password: '',
-                    confirmPassword: '',
-                    consent: false,
-                    dataPriv: false
-                })
             } catch (err) {
                 setIsFailed(true);
                 setIsLoading(false);
-                console.error(err);                
+                console.error(err);
             }
         }
     }
 
     const inputStyle = 'w-full xl:w-[47%] bg-inputGray py-3 font-inika text-[14px] px-3 my-2 rounded outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]';
-    const checkboxStyle = 'w-5 h-5 cursor-pointer self-start';
+    const checkboxStyle = 'cursor-pointer self-start';
     const checkboxLabelStyle = 'font-noticia font-bold text-[14px] ml-2 md:text-[15px] leading-5';
 
     return (
@@ -111,28 +124,22 @@ function SignUp() {
             <Header toggleLogin={toggleLogin} />
             {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
             {isSubmitted && (
-                <Stack sx={{
-                    width: '100%',
-                    position: 'fixed',
-                    bottom: 0,
-                    left: 0,
-                    zIndex: (theme) => theme.zIndex.snackbar,
-                }} spacing={2}>
-                    <Alert variant="filled" severity="success">
-                        Registration successful! Please verify your email.
-                    </Alert></Stack>
-            )}
-            {isFailed && (
-                <Stack sx={{
-                    width: '100%',
-                    position: 'fixed',
-                    bottom: 0,
-                    left: 0,
-                    zIndex: (theme) => theme.zIndex.snackbar,
-                }} spacing={2}>
-                    <Alert variant="filled" severity="error">
-                        Email already exists
-                    </Alert></Stack>
+                <div className='fixed top-0 left-0 w-full h-full bg-black/50 z-[12000] flex items-center justify-center'>
+                    <div className='w-[90%] md:w-[60%] lg:w-[40%] 2xl:w-[30%] flex flex-col items-center justify-center rounded-[20px] shadow-lg bg-white overflow-hidden py-15'>
+                        <DraftsOutlinedIcon fontSize="inherit"
+                            sx={{
+                                fontSize: {
+                                    xs: '150px',
+                                    sm: '150px',
+                                    md: '230px',
+                                    lg: '230px',
+                                    xl: '280px',
+                                },
+                            }} className='text-sm md:text-2xl' />
+                        <p className='font-noticia font-bold text-lg md:text-xl lg:text-2xl my-2'>Thank you for signing up!</p>
+                        <p className='w-[80%] text-center font-noticia text-sm md:text-lg lg:text-lg'>Your coffee journey starts here! Check your registered email and click on the link provided to activate your account.</p>
+                    </div>
+                </div>
             )}
             {isLoading && (
                 <Backdrop
@@ -158,11 +165,20 @@ function SignUp() {
 
                         <label className='w-full font-noticia font-bold text-left text-[15px] mt-5 md:text-[16px]'>Login & Contact Details</label>
                         <div className='w-full flex flex-col xl:flex-row flex-wrap items-start justify-center xl:justify-between'>
-                            <input className={inputStyle} type="email" placeholder='Email' name='email' value={values.email} onChange={handleChange} required />
-                            <input className={inputStyle} type="tel" placeholder='Contact Number (e.g. 09123456789)' name='phone' value={values.phone} onChange={handleChange} required />
-                            <input className={inputStyle} type="password" placeholder='Password' name='password' value={values.password} onChange={handleChange} required />
                             <div className='w-full xl:w-[47%] flex flex-col items-center justify-center'>
-                                <input className='w-full bg-inputGray py-3 font-inika text-[14px] px-3 my-2 rounded outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]' type="password" placeholder='Confirm Password' name='confirmPassword' value={values.confirmPassword} onChange={handleChange} required />
+                                <input className={`w-full ${isFailed ? 'bg-red-100' : 'bg-inputGray'} py-3 font-inika text-[14px] px-3 my-2 rounded outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]`} type="email" placeholder='Email' name='email' value={values.email} onChange={handleChange} required />
+                                {isFailed && (
+                                    <p className='w-full text-left text-red-600 text-[12px] font-inika md:text-[14px] leading-none mb-3'>Email already exists.</p>
+                                )}
+                            </div>
+
+                            <div className='w-full xl:w-[47%] flex flex-row nowrap items-center justify-center rounded bg-inputGray my-2'>
+                                <p className='w-[10%] font-inika text-[14px] md:text-[15px] py-3 text-center border-r-2 border-gray-300'>+63</p>
+                                <input className='w-[90%] py-3 font-inika text-[14px] px-3 outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]' type="tel" placeholder='Contact Number (e.g. 9123456789)' name='phone' value={values.phone} onChange={handleChange} required />
+                            </div>
+                            <input className={`w-full xl:w-[47%] ${!isPassValid ? 'bg-red-100' : 'bg-inputGray'} py-3 font-inika text-[14px] px-3 my-2 rounded outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]`} type="password" placeholder='Password' name='password' value={values.password} onChange={handleChange} required />
+                            <div className='w-full xl:w-[47%] flex flex-col items-center justify-center'>
+                                <input className={`w-full ${!isPassValid ? 'bg-red-100' : 'bg-inputGray'} py-3 font-inika text-[14px] px-3 my-2 rounded outline-none focus:bg-gray-300 transition-all duration-200 md:text-[15px]`} type="password" placeholder='Confirm Password' name='confirmPassword' value={values.confirmPassword} onChange={handleChange} required />
                                 {!isPassValid && (
                                     <p className='w-full text-left text-red-600 text-[12px] font-inika md:text-[14px] leading-none'>Passwords do not match.</p>
                                 )}

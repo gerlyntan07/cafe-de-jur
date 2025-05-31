@@ -13,12 +13,19 @@ import food3 from '../assets/food3.png';
 import axios from 'axios';
 
 function Landing() {
+  useEffect(() => {
+    document.title = "CAFÉ de JÚR";
+  }, []);
+
   const API = import.meta.env.VITE_API_URL;
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const toggleLogin = () => {
-    setIsLoginOpen(prev => !prev);
-  }
+        setIsLoginOpen(prev => !prev);
+        if (isLoginOpen){
+            document.title = "CAFÉ de JÚR";
+        }
+    }
 
   useEffect(() => {
     axios.get(`${API}/login`)
