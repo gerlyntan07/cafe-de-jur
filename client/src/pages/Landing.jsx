@@ -10,24 +10,44 @@ import menu3 from '../assets/menu3.png';
 import food1 from '../assets/food1.png';
 import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
+import axios from '../hooks/AxiosConfig.js';
 
 function Landing() {
   useEffect(() => {
     document.title = "CAFÉ de JÚR";
   }, []);
-  
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    axios.get('/session')
+      .then((res) => {
+        if (res.data.loggedIn === false) {          
+          setIsAuthenticated(false);
+        } else {
+          console.log(res.data.firstname);
+          setUserName(res.data.firstname);
+          setIsAuthenticated(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Session validation failed:', error);
+        setIsAuthenticated(false);
+      })
+  }, []);
+
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const toggleLogin = () => {
-        setIsLoginOpen(prev => !prev);
-        if (isLoginOpen){
-            document.title = "CAFÉ de JÚR";
-        }
-    }  
+    setIsLoginOpen(prev => !prev);
+    if (isLoginOpen) {
+      document.title = "CAFÉ de JÚR";
+    }
+  }
 
   return (
     <>
-      <Header toggleLogin={toggleLogin} />
+      <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
       {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
       <div id='home' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
         <p className='font-libre text-[2.5rem] md:text-[4rem] md:leading-none 2xl:text-[7rem]'>CAFÉ de JÚR</p>

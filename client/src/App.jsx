@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from './pages/Landing';
 import SignUp from './pages/SignUp';
 import EmailVerified from './pages/EmailVerified';
-import AfterLogin from './pages/afterLogin';
-import HeaderLoggedIn from './components/HeaderLoggedIn.jsx';
+import MyAccount from './pages/MyAccount.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -15,16 +14,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Landing />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/email-verified' element={<EmailVerified />} />
-        <Route
-          path='/afterlogin'
-          element={
-            <PrivateRoute>
-              <AfterLogin />
-            </PrivateRoute>
-          }
-        />
-        <Route path='/home-loggedin' element={<HeaderLoggedIn />} />
+        <Route path='/email-verified' element={<EmailVerified />} />        
+        <Route path='/myAcc' element={<PrivateRoute><MyAccount /></PrivateRoute>} />       
       </Routes>
     </Router>
   )

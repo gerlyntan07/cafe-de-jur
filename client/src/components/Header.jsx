@@ -4,12 +4,19 @@ import logo from '/cafedejur-logo.png';
 import { FiAlignRight } from "react-icons/fi";
 import { BsX } from "react-icons/bs";
 import { HashLink } from 'react-router-hash-link';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import UseLogout from '../hooks/UseLogout.js';
 
-function Header({toggleLogin}) {
+function Header({ toggleLogin, isAuthenticated, userName }) {
+    const logout = UseLogout();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeHash, setActiveHash] = useState('');
+    const [isAccount, setIsAccount] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,7 +26,7 @@ function Header({toggleLogin}) {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    
+
 
     const rightMenuTexts = 'font-inika text-white text-[15px]';
 
@@ -57,12 +64,12 @@ function Header({toggleLogin}) {
     }, []);
 
     const isSignupActive = location.pathname === '/signup' || location.hash === '#signup';
+    const isMyAccActive = location.pathname === '/myAcc' || location.hash === '#myAcc';
 
     const isActiveHash = (hash) => {
         const normalizedHash = hash.replace('/#', '#');
         return activeHash === normalizedHash;
     };
-
 
 
     const desktopLeftLinkClass = (hash) =>
@@ -75,9 +82,18 @@ function Header({toggleLogin}) {
     const signupLinkClass = () =>
         `w-[90%] rounded font-inika text-[15px] text-center px-15 py-3 transition-all duration-100 ${isSignupActive ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'}`;
 
+    const myAccLinkClass = () =>
+        `w-full rounded font-inika text-[15px] text-center px-15 py-3 transition-all duration-100 ${isMyAccActive ? 'bg-lightBrownBG !text-black shadow-lg' : 'text-white'}`;
+
     const signupLinkClassPC = () =>
         `font-inika h-full text-[15px] flex items-center py-2 transition-all duration-100 ${isSignupActive ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'}`;
 
+    const myAccLinkClassPC = () =>
+        `w-full font-inika h-full text-[15px] flex items-center justify-center py-2 transition-all duration-100 ${isMyAccActive ? 'bg-lightBrownBG text-black px-5 ease-in' : 'text-white'}`;
+
+    const toggleAccount = () => {
+        setIsAccount(prev => !prev);
+    }
 
     return (
         <>
@@ -103,16 +119,35 @@ function Header({toggleLogin}) {
                         </div>
                     </div>
 
-                    <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
-                        } flex flex-col items-center pt-6`}>
-                        <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
-                        <HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
-                        <HashLink className={mobileLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
-                        <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
-                        <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
-                        <HashLink className={mobileLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
-                        <HashLink className={signupLinkClass('#signup')} to="/signup">SIGN UP</HashLink>
-                    </div>
+                    {isAuthenticated === true ? (
+                        <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
+                            } flex flex-col items-center pt-6`}>
+                            <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
+                            <HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            <HashLink className={mobileLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
+                            <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
+                            <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
+                            <div className='flex flex-col w-[90%] items-center justify-center rounded'>
+                                <button onClick={toggleAccount} className='w-full rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{color: 'white', marginRight: 1}} />{userName}</button>
+                                <div className={`${isAccount ? `flex` : `hidden`} rounded bg-darkAccent w-full flex-col items-center`}>
+                                    <HashLink className={myAccLinkClass('#myAcc')} to="/myAcc">MY ACCOUNT</HashLink>
+                                    <button className='w-[90%] cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100' onClick={logout}>LOG OUT</button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
+                            } flex flex-col items-center pt-6`}>
+                            <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
+                            <HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            <HashLink className={mobileLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
+                            <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
+                            <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
+                            <HashLink className={mobileLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
+                            <HashLink className={signupLinkClass('#signup')} to="/signup">SIGN UP</HashLink>
+                        </div>
+                    )}
+
                 </>
             ) : (
 
@@ -136,11 +171,21 @@ function Header({toggleLogin}) {
                             <HashLink className={desktopLeftLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
                         </div>
 
-                        <div className='w-[20%] h-full flex flex-row items-center justify-center gap-5'>
-                            <HashLink className={desktopLeftLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
-                            <p className={rightMenuTexts}>|</p>
-                            <HashLink className={signupLinkClassPC('#signup')} to="/signup">SIGN UP</HashLink>
-                        </div>
+                        {isAuthenticated === true ? (
+                            <div className='flex flex-col w-[20%] items-center justify-center rounded'>
+                                <button onClick={toggleAccount} className='w-full flex flex-row items-center justify-center cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{color: 'white', marginRight: 1}} />{userName}</button>
+                                <div className={`${isAccount ? `flex` : `hidden`} rounded shadow-md absolute bottom-[-75%] 2xl:bottom-[-60%] bg-darkAccent flex-col items-center`}>
+                                    <HashLink className={myAccLinkClassPC('#myAcc')} to="/myAcc">MY ACCOUNT</HashLink>
+                                    <button className='w-full cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100' onClick={logout}>LOG OUT</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='w-[20%] h-full flex flex-row items-center justify-center gap-5'>
+                                <HashLink className={desktopLeftLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
+                                <p className={rightMenuTexts}>|</p>
+                                <HashLink className={signupLinkClassPC('#signup')} to="/signup">SIGN UP</HashLink>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

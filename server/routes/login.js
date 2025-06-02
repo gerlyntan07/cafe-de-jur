@@ -27,6 +27,8 @@ router.post('/login', (req, res) => {
             req.session.accountID = user.accountID;
             req.session.email = user.email;
             req.session.userRole = user.userRole;
+            req.session.firstname = user.firstname;
+            req.session.lastname = user.lastname;
             console.log('Set cookies:', req.cookies);
             console.log('Session data:', req.session);
             res.json({
@@ -55,7 +57,9 @@ router.get('/session', (req, res) => {
       loggedIn: true, 
       accountID: req.session.accountID,
       email: req.session.email,
-      userRole: req.session.userRole
+      userRole: req.session.userRole,
+      firstname: req.session.firstname,
+      lastname: req.session.lastname,
     });
   } else {
     console.error('Session not found');

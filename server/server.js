@@ -15,6 +15,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Session store
 const sessionStore = new MySQLStore({
@@ -24,8 +25,6 @@ const sessionStore = new MySQLStore({
   password: '',
   database: process.env.DB_NAME
 });
-
-app.use(cookieParser());
 app.use(session({
   key: 'cafe_user_sid',
   name: 'cafe_user_sid',

@@ -6,15 +6,22 @@ import axios from './AxiosConfig.js';
 const PrivateRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const validateSession = async () => {
       try {
         const res = await axios.get('/session');
-        if(res.data.loggedIn === false) {
+        if (res.data.loggedIn === false) {
           setIsAuthenticated(false);
         } else {
           setIsAuthenticated(true);
+          setUserData({
+            email: res.data.email,
+            accountID: res.data.accountID,
+            userRole: res.data.userRole,
+            firstname: res.data.firstname
+          });
         }
       } catch (error) {
         console.error('Session validation failed:', error);
@@ -28,7 +35,9 @@ const PrivateRoute = ({ children }) => {
 
   if (loading) return <div>Loading...</div>;
 
-  return isAuthenticated ? children : <Navigate to="/" replace />;
+  return isAuthenticated
+    ? React.cloneElement(children, { userData, isAuthenticated })
+    : <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;

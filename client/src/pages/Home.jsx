@@ -20,8 +20,8 @@ function Landing() {
 
   return (
     <>
-        <HeaderLoggedIn />
-      <div id='home' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
+      <HeaderLoggedIn />
+      <section id='homeLoggedIn' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
         <p className='font-libre text-[2.5rem] md:text-[4rem] md:leading-none 2xl:text-[7rem]'>CAFÉ de JÚR</p>
         <p className='font-inika text-[1rem] md:text-[1rem] 2xl:text-[1.7rem]'>EST. 2024</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] my-4 md:w-[45%] md:my-6' />
@@ -40,10 +40,10 @@ function Landing() {
         ></div>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
-      </div>
+      </section>
 
       {/* MENU */}
-      <div id='menu' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
+      <section id='menuLoggedIn' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
         <p className='font-libre text-[18px] md:text-[20px]'>FOODS MENU</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
 
@@ -55,7 +55,7 @@ function Landing() {
         </div>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
-      </div>
+      </section>
     </>
   )
 }

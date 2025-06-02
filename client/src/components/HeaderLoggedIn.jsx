@@ -28,7 +28,7 @@ function HeaderLoggedIn() {
     }
 
     useEffect(() => {
-        const sectionIds = ['home', 'menu', 'about', 'contact', 'loginPopup', 'signup'];
+        const sectionIds = ['homeLoggedIn', 'menuLoggedIn', 'about', 'contact', 'loginPopup', 'signup'];
         const sections = sectionIds.map(id => document.getElementById(id));
 
         const observer = new IntersectionObserver(
@@ -106,12 +106,11 @@ function HeaderLoggedIn() {
                     <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
                         } flex flex-col items-center pt-6`}>
                         <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
-                        <HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
-                        <HashLink className={mobileLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
+                        <HashLink className={mobileLinkClass('#homeLoggedIn')} smooth to="/#homeLoggedIn">HOME</HashLink>
+                        <HashLink className={mobileLinkClass('#menuLoggedIn')} smooth to="/#menuLoggedIn">MENU</HashLink>
                         <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
                         <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
-                        <HashLink className={mobileLinkClass('#loginPopup')} onClick={toggleLogin}>LOG IN</HashLink>
-                        <HashLink className={signupLinkClass('#signup')} to="/signup">SIGN UP</HashLink>
+                        <HashLink className={mobileLinkClass('#myAcc')} smooth to="/#myAcc">MY ACCOUNT</HashLink>                        
                     </div>
                 </>
             ) : (
@@ -130,8 +129,8 @@ function HeaderLoggedIn() {
                             <img src={logo} alt="" className="w-[40%] overflow-visible object-contain 2xl:w-[35%]" />
                         </div>
                         <div className="w-[60%] h-full flex flex-row items-center justify-center gap-15 2xl:gap-20">
-                            <HashLink className={desktopLeftLinkClass('#home')} smooth to="/#home">HOME</HashLink>
-                            <HashLink className={desktopLeftLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#homeLoggedIn')} smooth to="/#homeLoggedIn">HOME</HashLink>
+                            <HashLink className={desktopLeftLinkClass('#menuLoggedIn')} smooth to="/#menuLoggedIn">MENU</HashLink>
                             <HashLink className={desktopLeftLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
                             <HashLink className={desktopLeftLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
                         </div>
