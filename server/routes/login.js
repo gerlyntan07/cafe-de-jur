@@ -7,6 +7,16 @@ require('dotenv').config();
 
 router.use(express.json());
 
+router.get('/getUserData', (req, res) => {
+  const read = 'SELECT * FROM account WHERE accountID = ?';
+  db.query(read, [req.session.accountID], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.length === 1){      
+      res.json({message: 'successful', customerData: result[0]});      
+    }
+  })
+})
+
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
   const readUser = 'SELECT * FROM account WHERE email = ?';
