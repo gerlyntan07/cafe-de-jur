@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import SignUp from './pages/SignUp';
 import EmailVerified from './pages/EmailVerified';
 import AfterLogin from './pages/afterLogin';
+import HeaderLoggedIn from './components/HeaderLoggedIn.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -23,6 +24,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path='/home-loggedin' element={<HeaderLoggedIn />} />
       </Routes>
     </Router>
   )
