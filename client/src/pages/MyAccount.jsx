@@ -3,6 +3,7 @@ import Header from '../components/Header.jsx';
 import menubg from '../assets/menubg.png';
 import axios from '../hooks/AxiosConfig.js';
 import { ToastContainer, toast } from 'react-toastify';
+import MyAccAddress from '../components/MyAccAddress.jsx';
 
 function MyAccount({ userData, isAuthenticated }) {
   const [tab, setTab] = useState(1);
@@ -238,6 +239,10 @@ function MyAccount({ userData, isAuthenticated }) {
               <button className={`${cancelSaveBtn} bg-lightBrownBG`} onClick={handleSavePass}>Save Changes</button>
             </div>
           </div>
+        )}
+
+        {tab === 2 && (
+          <MyAccAddress />
         )}
       </section>
     </>

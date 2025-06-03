@@ -5,6 +5,25 @@ const bcrypt = require("bcrypt");
 
 router.use(express.json());
 
+//address
+router.get('/getAddress', (req, res) => {
+    const readAddress = `SELECT * FROM account WHERE accountID = ?`;
+    db.query(readAddress, req.session.accountID, (err, readRes) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if(readRes.length > 0){
+            const user = readRes[0];
+            if(user.address === null || user.address === ''){
+                res.json({message: 'Address not found', userAddress: user.address});
+            }else{
+                res.json({message: 'Address found' })
+            }
+        } else if(readRes.length === 0){
+            res.status(404).json({message: 'Account not found'})
+        }
+    })
+})
+
+//pass
 router.post('/changePass', async(req, res) => {
     const { currPass, newPass } = req.body;    
     const readPass = `SELECT * FROM account WHERE accountID = ?`;
