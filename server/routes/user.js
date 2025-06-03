@@ -6,6 +6,19 @@ const bcrypt = require("bcrypt");
 router.use(express.json());
 
 //address
+router.post('/saveAddress', (req,res) => {
+    const formattedAddress = req.body.formattedAddress;
+    const updateQuery = `UPDATE account SET address = ? WHERE accountID = ?`;
+    db.query(updateQuery, [formattedAddress, req.session.accountID], (err, insertRes) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if(insertRes.affectedRows > 0){
+            res.json({message: 'successful'});
+        } else{
+            res.status(400).json({message: 'Error adding address'});
+        }
+    })
+})
+
 router.get('/getAddress', (req, res) => {
     const readAddress = `SELECT * FROM account WHERE accountID = ?`;
     db.query(readAddress, req.session.accountID, (err, readRes) => {
@@ -13,9 +26,9 @@ router.get('/getAddress', (req, res) => {
         if(readRes.length > 0){
             const user = readRes[0];
             if(user.address === null || user.address === ''){
-                res.json({message: 'Address not found', userAddress: user.address});
+                res.json({message: 'Address not found'});
             }else{
-                res.json({message: 'Address found' })
+                res.json({message: 'Address found', userAddress: user.address })
             }
         } else if(readRes.length === 0){
             res.status(404).json({message: 'Account not found'})

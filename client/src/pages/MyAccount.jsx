@@ -14,7 +14,7 @@ function MyAccount({ userData, isAuthenticated }) {
     email: '',
   })
   const [origData, setOrigData] = useState(null);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);  
 
   useEffect(() => {
     document.title = "Account | CAFÉ de JÚR";
@@ -157,7 +157,7 @@ function MyAccount({ userData, isAuthenticated }) {
 
           <div className='w-full flex flex-row items-center justify-evenly border-y-1 mb-10 lg:flex-col lg:border-0 lg:items-start'>
             <button className={tabButtonClass(1)} onClick={() => setTab(1)}>My Profile</button>
-            <button className={tabButtonClass(2)} onClick={() => { setTab(2) }}>My Addresses</button>
+            <button className={tabButtonClass(2)} onClick={() => { setTab(2) }}>My Address</button>
             <button className={tabButtonClass(3)} onClick={() => { setTab(3) }}>Order History</button>
           </div>
         </div>
