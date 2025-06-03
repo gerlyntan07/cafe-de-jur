@@ -24,8 +24,7 @@ function Landing() {
       .then((res) => {
         if (res.data.loggedIn === false) {          
           setIsAuthenticated(false);
-        } else {
-          console.log(res.data.firstname);
+        } else {          
           setUserName(res.data.firstname);
           setIsAuthenticated(true);
         }

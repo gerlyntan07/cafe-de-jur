@@ -31,6 +31,24 @@ function SignUp() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isFailed, setIsFailed] = useState(false);
 
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    axios.get('/session')
+      .then((res) => {
+        if (res.data.loggedIn === false) {          
+          setIsAuthenticated(false);
+        } else {          
+          setUserName(res.data.firstname);
+          setIsAuthenticated(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Session validation failed:', error);
+        setIsAuthenticated(false);
+      })
+  }, []);
+
     const toggleLogin = () => {
         setIsLoginOpen(prev => !prev);
         if (isLoginOpen) {
@@ -121,7 +139,7 @@ function SignUp() {
 
     return (
         <>
-            <Header toggleLogin={toggleLogin} />
+            <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
             {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
             {isSubmitted && (
                 <div className='fixed top-0 left-0 w-full h-full bg-black/50 z-[12000] flex items-center justify-center'>

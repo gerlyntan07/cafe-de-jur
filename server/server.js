@@ -44,6 +44,8 @@ const login = require("./routes/login");
 app.use("/api", login);
 const signup = require("./routes/signup");
 app.use("/api", signup);
+const user = require("./routes/user");
+app.use("/api", user);
 
 app.get('/', (req, res) => {
     console.log("Request received at '/'");
