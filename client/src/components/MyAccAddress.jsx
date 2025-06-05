@@ -264,7 +264,7 @@ const MyAccAddress = () => {
                 <button className={`${cancelSaveBtn} bg-lightBrownBG`} onClick={handleSaveAddress}>Save</button>
             </div>
             {noAddress && (
-                <button className={`${!isAdd ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-10 text-md cursor-pointer`} onClick={() => setIsAdd(true)}>Add New Address</button>
+                <button className={`${!isAdd ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-10 text-md cursor-pointer`} onClick={() => setIsAdd(true)}>Add Address</button>
             )}
         </div>
     )
