@@ -14,7 +14,6 @@ router.post('/register', async (req, res) => {
         if (err) return res.status(500).json({ error: err.message });
         if (emailRes.length > 0) return res.status(400).json({ error: "Email already exists" });
 
-
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const insertValues = 'INSERT INTO account (firstname, lastname, email, password, phoneNum, userRole) VALUES(?,?,?,?,?,?)';

@@ -88,7 +88,7 @@ function LoginPopup({ toggleLogin }) {
 
                 <button type='submit' className='font-inika text-[15px] md:text-[16px] md:py-3 w-[80%] bg-lightBrownBG rounded-full py-2 mt-5 hover:bg-lightBrown focus:bg-lightBrown focus:outline-2 focus:outline-offset-2 focus:outline-lightBrown cursor-pointer'>Log in</button>
                 <div className='h-[2px] w-[80%] bg-gray-300 my-7'> </div>
-                <p className='w-[70%] text-center font-inika text-[13px] mb-8 md:text-[15px] md:mb-15'>Don’t have an account yet? <Link className='text-red-600'>Sign up</Link> and sip up!</p>
+                <p className='w-[70%] text-center font-inika text-[13px] mb-8 md:text-[15px] md:mb-15'>Don’t have an account yet? <Link className='text-red-600' to='/signup'>Sign up</Link> and sip up!</p>
             </form>
         </section>
     )
