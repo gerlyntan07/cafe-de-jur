@@ -4,7 +4,7 @@ import axios from '../hooks/AxiosConfig.js';
 import LoginPopup from '../components/LoginPopup.jsx';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
-
+import ProductCard from '../components/ProductCard.jsx';
 
 const Menu = () => {
     const navigate = useNavigate();
@@ -59,34 +59,54 @@ const Menu = () => {
         `font-noticia px-2 py-2 transition-colors text-black text-md lg:text-lg lg:ml-10 cursor-pointer ${activeTab === tab ? 'border-b-4 border-red-400 font-bold' : 'bg-transparent'
         }`;
 
+    const productListsStyle = `w-full md:w-[95%] lg:w-full 2xl:w-[90%] flex flex-col items-center justify-center gap-3 mt-10`;
+
     return (
         <>
             <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
             {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
-            <div className='pt-30 2xl:pt-35 w-full flex flex-col items-center justify-evenly'>
-                <div id='menu' className='w-full flex flex-row items-center justify-evenly shadow-md'>
+            <div className='pt-30 pb-10 2xl:pt-35 w-full flex flex-col items-center justify-evenly'>
+                <div id='menu' className='w-full bg-white flex flex-row items-center justify-evenly shadow-md'>
                     <button className={menuTypesTab('Beverages')} onClick={() => handleTabClick('Beverages')}>Beverages</button>
                     <button className={menuTypesTab('Croffles')} onClick={() => handleTabClick('Croffles')}>Croffles</button>
                     <button className={menuTypesTab('Silog Meals')} onClick={() => handleTabClick('Silog Meals')}>Silog Meals</button>
                     <button className={menuTypesTab('Pasta')} onClick={() => handleTabClick('Pasta')}>Pasta</button>
                 </div>
 
-                <h1 className="text-2xl font-bold mb-4 pt-50">Menu</h1>
-                <p className="text-gray-500">Currently viewing: {activeTab}</p>
                 {activeTab === 'Beverages' && (
-                    <div>basta Beverages</div>
+                    <div className={productListsStyle}>
+                    <div>
+                        <p>Filter by: </p>
+                        <select name="" id="">
+                            <option value="All"> </option>
+                            <option value="Coffee">Coffee</option>
+                            <option value="Non-Coffee">Non-Coffee</option>
+                            <option value="Fruity Fritz">Fruity Fritz</option>                        
+                        </select>
+                    </div>                    
+                    <ProductCard category='Beverage' />
+                    </div>
                 )}
 
                 {activeTab === 'Croffles' && (
+                    <div className={productListsStyle}>
                     <div>basta Croffles</div>
+                    <ProductCard category='Croffle' />
+                    </div>
                 )}
 
                 {activeTab === 'Silog Meals' && (
-                    <div>basta Silog Meals</div>
+                    <div className={productListsStyle}>
+                    <div>basta Silog</div>
+                    <ProductCard category='Silog' />
+                    </div>
                 )}
 
                 {activeTab === 'Pasta' && (
+                    <div className={productListsStyle}>
                     <div>basta Pasta</div>
+                    <ProductCard category='Pasta' />
+                    </div>
                 )}
             </div>
 

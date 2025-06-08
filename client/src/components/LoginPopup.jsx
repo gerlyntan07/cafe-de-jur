@@ -30,6 +30,8 @@ function LoginPopup({ toggleLogin }) {
     })
 
     const handleChange = (e) => {
+        setIsLoginError(false);
+        setLoginErrorMsg('');
         const { name, value } = e.target;
         setValues({
             ...values,
