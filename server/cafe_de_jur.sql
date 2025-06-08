@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2025 at 10:52 AM
+-- Generation Time: Jun 08, 2025 at 09:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,8 +35,6 @@ CREATE TABLE `account` (
   `password` varchar(100) NOT NULL,
   `address` varchar(200) DEFAULT NULL,
   `phoneNum` varchar(50) DEFAULT NULL,
-  `sex` enum('F','M') DEFAULT NULL,
-  `birthdate` date DEFAULT NULL,
   `userRole` enum('Admin','Customer') NOT NULL,
   `accStatus` enum('Pending','Registered') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -45,8 +43,8 @@ CREATE TABLE `account` (
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `email`, `password`, `address`, `phoneNum`, `sex`, `birthdate`, `userRole`, `accStatus`) VALUES
-(22, 'Gerlyn', 'Tan', 'gerlyntan07@gmail.com', '$2b$10$skZ4a64.naM9Qb0touk6LOR7gqCiEYYtnGRENgyfJ5bN.NO5JdubO', NULL, '+639910328158', NULL, NULL, 'Customer', 'Registered');
+INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `email`, `password`, `address`, `phoneNum`, `userRole`, `accStatus`) VALUES
+(22, 'Gerlyn', 'Tan', 'gerlyntan07@gmail.com', '$2b$10$HatDnhYdQMAqSbxKe7aO3ORBXofox/2jEq1HS59phOXIEqE1HYfwq', NULL, '+639910328158', 'Customer', 'Registered');
 
 -- --------------------------------------------------------
 
@@ -84,7 +82,7 @@ ALTER TABLE `sessions`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
