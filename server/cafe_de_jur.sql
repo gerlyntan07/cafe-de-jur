@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2025 at 03:20 PM
+-- Generation Time: Jun 09, 2025 at 04:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,8 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `email`, `password`, `address`, `phoneNum`, `userRole`, `accStatus`) VALUES
-(22, 'Gerlyn', 'Tan', 'gerlyntan07@gmail.com', '$2b$10$HatDnhYdQMAqSbxKe7aO3ORBXofox/2jEq1HS59phOXIEqE1HYfwq', NULL, '+639910328158', 'Customer', 'Registered');
+(22, 'Gerlyn', 'Tan', 'gerlyntan07@gmail.com', '$2b$10$HatDnhYdQMAqSbxKe7aO3ORBXofox/2jEq1HS59phOXIEqE1HYfwq', NULL, '+639910328158', 'Customer', 'Registered'),
+(24, 'Admin', 'Account', 'admin@gmail.com', '$2b$10$XoH2ecvulLczlsnYLiEAweZiOUpZPftoTrrqcS8ehEEYkTYHvcdGa', NULL, '+6391232132131', 'Admin', 'Registered');
 
 -- --------------------------------------------------------
 
@@ -162,7 +163,7 @@ ALTER TABLE `sessions`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `beverage_variant`

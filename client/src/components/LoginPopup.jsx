@@ -43,9 +43,9 @@ function LoginPopup({ toggleLogin }) {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(`/login`, values);            
+            const res = await axios.post(`/login`, values);
             setIsLoginError(false);
-            window.location.reload();
+            navigate('/redirect-after-login');            
         } catch (err) {
             console.error('Login failed:', err.response?.data || err.message);
             setIsLoginError(true);
