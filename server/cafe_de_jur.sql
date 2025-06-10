@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2025 at 04:47 PM
+-- Generation Time: Jun 10, 2025 at 03:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -69,7 +69,39 @@ INSERT INTO `beverage_variant` (`variantID`, `productID`, `size`, `price`) VALUE
 (2, 20, '22oz', 109.00),
 (3, 22, '16oz', 99.00),
 (4, 22, '22oz', 109.00),
-(5, 22, 'Hot', 99.00);
+(5, 22, 'Hot', 99.00),
+(6, 23, '16oz', 129.00),
+(7, 23, '22oz', 149.00),
+(8, 24, '16oz', 109.00),
+(9, 24, '16oz', 129.00),
+(10, 24, 'Hot', 99.00),
+(11, 25, '16oz', 89.00),
+(12, 25, '22oz', 109.00),
+(13, 26, '16oz', 119.00),
+(14, 26, '22oz', 139.00),
+(15, 26, 'Hot', 109.00),
+(16, 27, 'Hot', 79.00),
+(17, 28, '16oz', 109.00),
+(18, 28, '22oz', 129.00),
+(19, 28, 'Hot', 99.00),
+(20, 29, '16oz', 129.00),
+(21, 29, '22oz', 149.00),
+(22, 29, 'Hot', 119.00),
+(23, 30, '16oz', 109.00),
+(24, 30, '22oz', 129.00),
+(25, 30, 'Hot', 99.00),
+(26, 31, '16oz', 79.00),
+(27, 31, '22oz', 89.00),
+(28, 32, '16oz', 59.00),
+(29, 32, '22oz', 79.00),
+(30, 32, 'Hot', 59.00),
+(31, 33, '16oz', 129.00),
+(32, 33, '22oz', 149.00),
+(33, 33, 'Hot', 119.00),
+(34, 34, '16oz', 89.00),
+(35, 34, '22oz', 109.00),
+(36, 35, 'Regular', 79.00),
+(37, 35, 'Large', 99.00);
 
 -- --------------------------------------------------------
 
@@ -112,7 +144,20 @@ INSERT INTO `product` (`productID`, `productName`, `productImgURL`, `description
 (18, 'Carbonara', 'https://ik.imagekit.io/cafedejur/menu/carbonara.jpg?updatedAt=1749378249434', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 100.00, 'Pasta', NULL, NULL),
 (19, 'Charlie Chan', 'https://ik.imagekit.io/cafedejur/menu/charlie%20chan.jpg?updatedAt=1749378249136', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 130.00, 'Pasta', NULL, NULL),
 (20, 'Orange Americano', 'https://ik.imagekit.io/cafedejur/menu/Orange%20Americano.jpg?updatedAt=1749378256883', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
-(22, 'Spanish Latte', 'https://ik.imagekit.io/cafedejur/menu/Iced%20Spanish%20Latte.jpg?updatedAt=1749378255646', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL);
+(22, 'Spanish Latte', 'https://ik.imagekit.io/cafedejur/menu/Iced%20Spanish%20Latte.jpg?updatedAt=1749378255646', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(23, 'Strawberry Espresso', 'https://ik.imagekit.io/cafedejur/menu/strawberry%20Espresso.jpg?updatedAt=1749559496578', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(24, 'Caramel Latte', 'https://ik.imagekit.io/cafedejur/menu/caramel%20latte.png?updatedAt=1749559493510', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(25, 'Iced Coffee Vanilla', 'https://ik.imagekit.io/cafedejur/menu/iced%20coffee%20vanilla.png?updatedAt=1749559493479', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(26, 'Caramel Macchiato', 'https://ik.imagekit.io/cafedejur/menu/caramel%20macchiato.png?updatedAt=1749559493350', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(27, 'Cappuccino', 'https://ik.imagekit.io/cafedejur/menu/cappuccino.png?updatedAt=1749559493122', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(28, 'Dark Mocha', 'https://ik.imagekit.io/cafedejur/menu/dark%20mocha.png?updatedAt=1749559493115', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(29, 'Biscoff Latte', 'https://ik.imagekit.io/cafedejur/menu/Biscoff%20latte.png?updatedAt=1749559493081', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(30, 'White Caramel', 'https://ik.imagekit.io/cafedejur/menu/white%20caramel%20latte.png?updatedAt=1749559493084', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(31, 'Iced Coffee Original', 'https://ik.imagekit.io/cafedejur/menu/iced%20coffee%20original.jpg?updatedAt=1749559492409', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(32, 'Americano', 'https://ik.imagekit.io/cafedejur/menu/americano.jpg?updatedAt=1749559492179', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(33, 'Matcha Espresso', 'https://ik.imagekit.io/cafedejur/menu/matcha%20espresso.jpg?updatedAt=1749559492145', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Coffee', NULL),
+(34, 'Matcha Latte', 'https://ik.imagekit.io/cafedejur/menu/matcha%20latte.png?updatedAt=1749562698387', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Non-Coffee', NULL),
+(35, 'Strawberry', 'https://ik.imagekit.io/cafedejur/menu/Strawberry%20Fruity%20Fritz%20.png?updatedAt=1749562698255', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 'Beverage', 'Fruity Fritz', NULL);
 
 -- --------------------------------------------------------
 
@@ -169,13 +214,13 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT for table `beverage_variant`
 --
 ALTER TABLE `beverage_variant`
-  MODIFY `variantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `variantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables

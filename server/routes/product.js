@@ -21,7 +21,18 @@ router.get('/getProductCount', (req, res) => {
 })
 
 router.get('/getProducts', (req, res) => {
-    const readAll = `SELECT * FROM product`
+    const readAll = `SELECT 
+      p.productID,
+      p.productName,
+      p.category,
+      p.productImgURL,
+      p.drinkType,
+      MIN(bv.price) AS min_price,
+      MAX(bv.price) AS max_price,
+      p.price AS base_price
+    FROM product p
+    LEFT JOIN beverage_variant bv ON p.productID = bv.productID
+    GROUP BY p.productID`
     db.query(readAll, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         if(result.length > 0){

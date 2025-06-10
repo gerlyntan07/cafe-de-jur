@@ -74,16 +74,7 @@ const Menu = () => {
                 </div>
 
                 {activeTab === 'Beverages' && (
-                    <div className={productListsStyle}>
-                    <div>
-                        <p>Filter by: </p>
-                        <select name="" id="">
-                            <option value="All"> </option>
-                            <option value="Coffee">Coffee</option>
-                            <option value="Non-Coffee">Non-Coffee</option>
-                            <option value="Fruity Fritz">Fruity Fritz</option>                        
-                        </select>
-                    </div>                    
+                    <div className={productListsStyle}>                                   
                     <ProductCard category='Beverage' />
                     </div>
                 )}
