@@ -6,6 +6,7 @@ import EmailVerified from './pages/EmailVerified';
 import MyAccount from './pages/MyAccount.jsx';
 import Menu from './pages/Menu.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx';
+import ViewProduct from './pages/ViewProduct.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -18,10 +19,11 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/email-verified' element={<EmailVerified />} />
         <Route path='/menu' element={<Menu />} />
+        <Route path='/view-product' element={<ViewProduct />} />
 
         <Route path='/redirect-after-login' element={<PrivateRoute />} />
         <Route path='/myAcc' element={<PrivateRoute requiredRole='customer'><MyAccount /></PrivateRoute>} />
-        <Route path='/admin-dashboard' element={<PrivateRoute requiredRole='admin'><AdminDashboard /></PrivateRoute>} />        
+        <Route path='/admin-dashboard' element={<PrivateRoute requiredRole='admin'><AdminDashboard /></PrivateRoute>} />
       </Routes>
     </Router>
   )

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../hooks/AxiosConfig.js';
 
 function ProductCard({ category }) {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [drinkType, setDrinkType] = useState('All');
 
@@ -36,6 +38,10 @@ function ProductCard({ category }) {
   return priceA - priceB;
 });
 
+const handleProductClick = (id) => {
+    navigate(`/view-product?productID=${encodeURIComponent(id)}`);
+  };
+
   return (    
     <>
     {category === 'Beverage' && (
@@ -59,6 +65,7 @@ function ProductCard({ category }) {
         <div
           key={product.productID}
           className="flex flex-col w-[45%] md:w-[30%] lg:w-[25%] xl:w-[20%] 2xl:w-[17%] bg-productBG p-2 lg:p-3 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+          onClick={() => handleProductClick(product.productID)}
         >
           <img
             src={product.productImgURL}
