@@ -11,26 +11,58 @@ function ViewProduct() {
     const selectedProductID = queryParams.get('productID');
     const [productDetails, setProductDetails] = useState([]);
     const [prodName, setProdName] = useState('');
+    const [prodDesc, setProdDesc] = useState('');
     const [prodImg, setProdImg] = useState('');
+    const [prodCategory, setProdCategory] = useState('');
     const [selectedVariant, setSelectedVariant] = useState('');
     const [currentPrice, setCurrentPrice] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const [addOns, setAddOns] = useState([]);
+    const [selectedAddOns, setSelectedAddOns] = useState([]);
+    const [isAddOns, setIsAddOns] = useState(false);
+    const [basePrice, setBasePrice] = useState(null);
+
+
+    const handleAddOnChange = (addonID) => {
+        setSelectedAddOns(prev =>
+            prev.includes(addonID)
+                ? prev.filter(id => id !== addonID)
+                : [...prev, addonID]
+        );
+    };
+
+    const onAddOnClick = () => {
+        setIsAddOns((prev) => !prev);
+        setSelectedAddOns([]);
+    }
 
     useEffect(() => {
         const getSelectedProduct = async () => {
             try {
                 const res = await axios.post('/getSelectedProduct', { selectedProductID });
-                document.title = `${res.data.productDetails[0].productName} | CAFÉ de JÚR`;
-                setProdName(res.data.productDetails[0].productName);
-                setProdImg(res.data.productDetails[0].productImgURL);
+                const product = res.data.productDetails[0];
+
+                document.title = `${product.productName} | CAFÉ de JÚR`;
+                setProdName(product.productName);
+                setProdImg(product.productImgURL);
+                setProdDesc(product.description);
+                setProdCategory(product.category);
                 setProductDetails(res.data.productDetails);
+                setAddOns(res.data.addOnsList);
+
+                if (product.category !== 'Beverage') {
+                    setBasePrice(product.base_price); // <--- set unit price
+                    setCurrentPrice((product.base_price * quantity).toFixed(2)); // initialize total
+                }
+
             } catch (err) {
                 console.error('Failed to fetch product details:', err);
             }
-        }
+        };
 
         getSelectedProduct();
-    }, [selectedProductID])
+    }, [selectedProductID, quantity]);
+
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userName, setUserName] = useState('');
@@ -62,38 +94,47 @@ function ViewProduct() {
     const sizeQuanDiv = `flex flex-col w-[50%] mt-3`;
     const sizeQuanLbl = `font-noticia text-[1rem]`;
 
-    const updatePrice = (size, qty) => {
-  const variant = productDetails.find(v => v.size === size);
-  if (variant) {
-    setCurrentPrice((variant.price * qty).toFixed(2));
-  } else {
-    setCurrentPrice('');
-  }
-};
+    const updatePrice = (input, qty) => {
+        if (prodCategory === 'Beverage') {
+            const variant = productDetails.find(v => v.size === input);
+            if (variant) {
+                setCurrentPrice((variant.price * qty).toFixed(2));
+            } else {
+                setCurrentPrice('');
+            }
+        } else {
+            if (basePrice !== null) {
+                setCurrentPrice((basePrice * qty).toFixed(2));
+            }
+        }
+    };
 
-// When size changes
-const handleSizeChange = (e) => {
-  const selectedSize = e.target.value;
-  setSelectedVariant(selectedSize);
-  updatePrice(selectedSize, quantity);
-};
 
-// When quantity changes
-const handleMinus = () => {
-  setQuantity(prev => {
-    const newQty = prev > 1 ? prev - 1 : 1;
-    updatePrice(selectedVariant, newQty);
-    return newQty;
-  });
-};
+    // When size changes
+    const handleSizeChange = (e) => {
+        const selectedSize = e.target.value;
+        setSelectedVariant(selectedSize);
+        updatePrice(selectedSize, quantity);
+    };
 
-const handlePlus = () => {
-  setQuantity(prev => {
-    const newQty = prev + 1;
-    updatePrice(selectedVariant, newQty);
-    return newQty;
-  });
-};
+    // When quantity changes
+    const handleMinus = () => {
+        if (quantity > 1) {
+            const newQty = quantity - 1;
+            setQuantity(newQty);
+
+            updatePrice(selectedVariant, newQty); // works for both cases now
+        }
+    };
+
+    const handlePlus = () => {
+        const newQty = quantity + 1;
+        setQuantity(newQty);
+
+        updatePrice(selectedVariant, newQty); // works for both cases now
+    };
+
+
 
     return (
         <>
@@ -115,25 +156,33 @@ const handlePlus = () => {
                         <p className='font-noticia text-[1.2rem]'>{currentPrice ? `₱${currentPrice}` : '₱0.00'}</p>
                     </div>
 
-                    <div className='flex flex-col w-full'>
-                        <div className={sizeQuanDiv}>
+                    <div className="mt-4">
+                        <p className="font-noticia text-sm font-semibold text-gray-600 mb-1">Product Description</p>
+                        <p className="font-noticia text-sm text-gray-600">{prodDesc}</p>
+                    </div>
+
+
+                    <div className='flex flex-row w-full gap-2'>
+                        {prodCategory === 'Beverage' && (
+                            <div className={sizeQuanDiv}>
                             <p className={sizeQuanLbl}>Size</p>
                             <select className="font-noticia text-[1rem]'> px-2 py-1 rounded border outline-none" value={selectedVariant} onChange={handleSizeChange}
-                        >
-                            <option value="" disabled>Select a size</option>
-                            {productDetails.map((variant, index) => {
-                                if (variant.size) {
-                                    return (
-                                        <option key={index} value={variant.size}>
-                                            {variant.size}
-                                        </option>
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            })}
-                        </select>
-                        </div>         
+                            >
+                                <option value="" disabled>Select a size</option>
+                                {productDetails.map((variant, index) => {
+                                    if (variant.size) {
+                                        return (
+                                            <option key={index} value={variant.size}>
+                                                {variant.size}
+                                            </option>
+                                        );
+                                    } else {
+                                        return null;
+                                    }
+                                })}
+                            </select>
+                        </div>
+                        )}                        
 
                         <div className={sizeQuanDiv}>
                             <p className={sizeQuanLbl}>Quantity</p>
@@ -142,7 +191,40 @@ const handlePlus = () => {
                                 <p className={sizeQuanLbl}>{quantity}</p>
                                 <button className={sizeQuanLbl} onClick={handlePlus}>+</button>
                             </div>
-                        </div>      
+                        </div>
+                    </div>
+
+
+
+                    <div className='w-full flex flex-col mt-5 bg-gray-200 p-5 rounded-lg'>
+                        <button className={`font-noticia text-[1rem] outline-none ${isAddOns === true && `mb-5`}`} onClick={onAddOnClick}>ADD ONS</button>
+
+                        {isAddOns === true && (
+                            <div className="grid grid-cols-2 gap-2">
+                                {addOns.map((a) => {
+                                    const isSelected = selectedAddOns.includes(a.addOnID);
+
+                                    return (
+                                        <label
+                                            key={a.addOnID}
+                                            onClick={() => handleAddOnChange(a.addOnID)}
+                                            className={`font-noticia text-[0.9rem] cursor-pointer block rounded border-2 transition text-center
+          ${isSelected ? 'border-darkBrown bg-[#EADDCA]' : 'border-gray-400 bg-white'}
+        `}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={isSelected}
+                                                onChange={() => handleAddOnChange(a.addOnID)}
+                                                className="hidden"
+                                            />
+                                            <span>{a.name}<br />+₱{a.price}</span>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                        )}
+
                     </div>
                 </div>
 

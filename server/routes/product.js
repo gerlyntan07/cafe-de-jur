@@ -18,10 +18,17 @@ router.post('/getSelectedProduct', (req, res) => {
     LEFT JOIN beverage_variant bv ON p.productID = bv.productID
     WHERE p.productID = ?`;
 
-    db.query(readProduct, [selectedProductID], (err, getRes) => {
+    db.query(readProduct, [selectedProductID], (err, productRes) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (getRes.length > 0) {
-            res.json({ productDetails: getRes });
+        if (productRes.length > 0) {
+            const category = productRes[0].category;
+            const readAddOns = `SELECT * FROM addon WHERE category = ?`;
+            db.query(readAddOns, [category], (err, addOnsRes) => {
+                if (err) return res.status(500).json({ error: err.message });
+                if(addOnsRes.length > 0){
+                    res.json({ productDetails: productRes, addOnsList: addOnsRes });
+                }                
+            })            
         }
     })
 })

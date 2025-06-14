@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2025 at 03:48 PM
+-- Generation Time: Jun 14, 2025 at 12:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,6 +46,46 @@ CREATE TABLE `account` (
 INSERT INTO `account` (`accountID`, `firstname`, `lastname`, `email`, `password`, `address`, `phoneNum`, `userRole`, `accStatus`) VALUES
 (22, 'Gerlyn', 'Tan', 'gerlyntan07@gmail.com', '$2b$10$HatDnhYdQMAqSbxKe7aO3ORBXofox/2jEq1HS59phOXIEqE1HYfwq', NULL, '+639910328158', 'Customer', 'Registered'),
 (24, 'Admin', 'Account', 'admin@gmail.com', '$2b$10$XoH2ecvulLczlsnYLiEAweZiOUpZPftoTrrqcS8ehEEYkTYHvcdGa', NULL, '+6391232132131', 'Admin', 'Registered');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addon`
+--
+
+CREATE TABLE `addon` (
+  `addOnID` int(11) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `category` enum('Beverage','Pasta','Silog','Croffle') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `addon`
+--
+
+INSERT INTO `addon` (`addOnID`, `name`, `price`, `category`) VALUES
+(1, 'Almond Nuts', 15.00, 'Croffle'),
+(2, 'Crushed Oreos', 15.00, 'Croffle'),
+(3, 'Biscoff Spread', 30.00, 'Croffle'),
+(4, 'Nutella Spread', 30.00, 'Croffle'),
+(5, 'Banana', 15.00, 'Croffle'),
+(6, 'Whipped Cream', 30.00, 'Croffle'),
+(7, 'Extra Bread', 10.00, 'Pasta'),
+(8, 'Extra Sauce', 20.00, 'Pasta'),
+(9, 'Extra Rice', 25.00, 'Silog'),
+(10, 'Extra Egg', 15.00, 'Silog'),
+(11, 'Extra Cheese Sauce', 10.00, 'Silog'),
+(12, 'Espresso Shot (single)', 20.00, 'Beverage'),
+(13, 'Caramel Drizzle', 25.00, 'Beverage'),
+(14, 'Chocolate Drizzle', 25.00, 'Beverage'),
+(15, 'Cream Cheese Foam', 25.00, 'Beverage'),
+(16, 'Flavored Syrup', 25.00, 'Beverage'),
+(17, 'Whipped Cream', 25.00, 'Beverage'),
+(18, 'Crushed Oreo', 20.00, 'Beverage'),
+(19, 'Extra Coffee Jelly', 20.00, 'Beverage'),
+(20, 'Banana Pudding', 45.00, 'Beverage'),
+(21, 'Sub-Oat Milk', 45.00, 'Beverage');
 
 -- --------------------------------------------------------
 
@@ -182,6 +222,12 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`accountID`);
 
 --
+-- Indexes for table `addon`
+--
+ALTER TABLE `addon`
+  ADD PRIMARY KEY (`addOnID`);
+
+--
 -- Indexes for table `beverage_variant`
 --
 ALTER TABLE `beverage_variant`
@@ -209,6 +255,12 @@ ALTER TABLE `sessions`
 --
 ALTER TABLE `account`
   MODIFY `accountID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `addon`
+--
+ALTER TABLE `addon`
+  MODIFY `addOnID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `beverage_variant`

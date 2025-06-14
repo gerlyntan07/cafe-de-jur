@@ -33,18 +33,18 @@ function ProductCard({ category }) {
       return true;
     })
     .sort((a, b) => {
-  const priceA = a.min_price ?? a.base_price ?? 0;
-  const priceB = b.min_price ?? b.base_price ?? 0;
-  return priceA - priceB;
-});
+      const priceA = a.min_price ?? a.base_price ?? 0;
+      const priceB = b.min_price ?? b.base_price ?? 0;
+      return priceA - priceB;
+    });
 
-const handleProductClick = (id) => {
+  const handleProductClick = (id) => {
     navigate(`/view-product?productID=${encodeURIComponent(id)}`);
   };
 
-  return (    
+  return (
     <>
-    {category === 'Beverage' && (
+      {category === 'Beverage' && (
         <div className="w-[90%] lg:w-[80%] flex items-center justify-end mb-4">
           <label htmlFor="beverage-filter" className="mr-2 text-sm font-semibold">Filter by:</label>
           <select
@@ -60,29 +60,29 @@ const handleProductClick = (id) => {
           </select>
         </div>
       )}
-    <div className="w-full flex flex-wrap justify-center items-center gap-3 md:gap-5">
-      {filteredProducts.map(product => (
-        <div
-          key={product.productID}
-          className="flex flex-col w-[45%] md:w-[30%] lg:w-[25%] xl:w-[20%] 2xl:w-[17%] bg-productBG p-2 lg:p-3 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
-          onClick={() => handleProductClick(product.productID)}
-        >
-          <img
-            src={product.productImgURL}
-            alt={product.productName}
-            className="h-40 w-full md:h-50 lg:h-60 object-cover border-1 border-gray-400 rounded"
-          />
-          <h3 className="w-full font-noticia text-sm md:text-md lg:text-lg mt-2 border-b-1 truncate">{product.productName}</h3>   
-          <p className="font-noticia font-bold text-sm md:text-md lg:text-lg">
-  {product.min_price && product.max_price
-    ? (product.min_price === product.max_price
-        ? `₱${Number(product.min_price).toFixed(2)}`
-        : `₱${Number(product.min_price).toFixed(2)} - ₱${Number(product.max_price).toFixed(2)}`)
-    : `₱${Number(product.base_price).toFixed(2)}`}
-</p>
-        </div>
-      ))}
-    </div>
+      <div className="w-full flex flex-wrap justify-center items-center gap-3 md:gap-5">
+        {filteredProducts.map(product => (
+          <div
+            key={product.productID}
+            className="flex flex-col w-[45%] md:w-[30%] lg:w-[25%] xl:w-[20%] 2xl:w-[17%] bg-productBG p-2 lg:p-3 rounded-lg shadow hover:shadow-lg transition cursor-pointer"
+            onClick={() => handleProductClick(product.productID)}
+          >
+            <img
+              src={product.productImgURL}
+              alt={product.productName}
+              className="h-40 w-full md:h-50 lg:h-60 object-cover border-1 border-gray-400 rounded"
+            />
+            <h3 className="w-full font-noticia text-sm md:text-md lg:text-lg mt-2 border-b-1 truncate">{product.productName}</h3>
+            <p className="font-noticia font-bold text-sm md:text-md lg:text-lg">
+              {product.min_price && product.max_price
+                ? (product.min_price === product.max_price
+                  ? `₱${Number(product.min_price).toFixed(2)}`
+                  : `₱${Number(product.min_price).toFixed(2)} - ₱${Number(product.max_price).toFixed(2)}`)
+                : `₱${Number(product.base_price).toFixed(2)}`}
+            </p>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

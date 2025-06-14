@@ -81,21 +81,18 @@ const Menu = () => {
 
                 {activeTab === 'Croffles' && (
                     <div className={productListsStyle}>
-                    <div>basta Croffles</div>
                     <ProductCard category='Croffle' />
                     </div>
                 )}
 
                 {activeTab === 'Silog Meals' && (
                     <div className={productListsStyle}>
-                    <div>basta Silog</div>
                     <ProductCard category='Silog' />
                     </div>
                 )}
 
                 {activeTab === 'Pasta' && (
                     <div className={productListsStyle}>
-                    <div>basta Pasta</div>
                     <ProductCard category='Pasta' />
                     </div>
                 )}
