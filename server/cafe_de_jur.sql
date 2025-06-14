@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2025 at 12:27 PM
+-- Generation Time: Jun 14, 2025 at 02:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -113,7 +113,7 @@ INSERT INTO `beverage_variant` (`variantID`, `productID`, `size`, `price`) VALUE
 (6, 23, '16oz', 129.00),
 (7, 23, '22oz', 149.00),
 (8, 24, '16oz', 109.00),
-(9, 24, '16oz', 129.00),
+(9, 24, '22oz', 129.00),
 (10, 24, 'Hot', 99.00),
 (11, 25, '16oz', 89.00),
 (12, 25, '22oz', 109.00),

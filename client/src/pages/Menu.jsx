@@ -56,7 +56,7 @@ const Menu = () => {
     };
 
     const menuTypesTab = (tab) =>
-        `font-noticia px-2 py-2 transition-colors text-black text-md lg:text-lg lg:ml-10 cursor-pointer ${activeTab === tab ? 'border-b-4 border-red-400 font-bold' : 'bg-transparent'
+        `font-noticia px-2 py-2 lg:py-3 transition-colors text-black text-md lg:text-lg lg:ml-10 cursor-pointer ${activeTab === tab ? 'border-b-4 border-red-400 font-bold' : 'bg-transparent'
         }`;
 
     const productListsStyle = `w-full md:w-[95%] lg:w-full 2xl:w-[90%] flex flex-col items-center justify-center gap-3 mt-10`;
@@ -65,8 +65,8 @@ const Menu = () => {
         <>
             <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
             {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
-            <div className='pt-30 pb-10 2xl:pt-35 w-full flex flex-col items-center justify-evenly'>
-                <div id='menu' className='w-full bg-white flex flex-row items-center justify-evenly shadow-md'>
+            <div className='pt-40 pb-10 lg:pt-38 2xl:pt-45 w-full flex flex-col items-center justify-evenly'>
+                <div id='menu' className='w-full bg-inputGray flex flex-row items-center justify-evenly shadow-md'>
                     <button className={menuTypesTab('Beverages')} onClick={() => handleTabClick('Beverages')}>Beverages</button>
                     <button className={menuTypesTab('Croffles')} onClick={() => handleTabClick('Croffles')}>Croffles</button>
                     <button className={menuTypesTab('Silog Meals')} onClick={() => handleTabClick('Silog Meals')}>Silog Meals</button>

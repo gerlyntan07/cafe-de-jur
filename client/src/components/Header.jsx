@@ -4,9 +4,8 @@ import logo from '/cafedejur-logo.png';
 import { FiAlignRight } from "react-icons/fi";
 import { BsX } from "react-icons/bs";
 import { HashLink } from 'react-router-hash-link';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import UseLogout from '../hooks/UseLogout.js';
 
@@ -117,6 +116,11 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                                 <FiAlignRight color='white' size={25} />
                             </button>
                         </div>
+
+                        <div className='flex flex-row items-center justify-end py-2 bg-white shadow-md'>
+                            <button className='mr-2'><ShoppingCartIcon /></button>
+                            <button className='mr-[1rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
+                        </div>
                     </div>
 
                     {isAuthenticated === true ? (
@@ -151,7 +155,7 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                 </>
             ) : (
 
-                <div className='w-full fixed flex flex-col items-center justify-center z-[10000] shadow-lg'>
+                <div className='w-full fixed flex flex-col items-center justify-center z-[10000]'>
                     <div className='w-full bg-white flex items-center justify-end pt-3 pb-3'>
                         <div className='flex items-end justify-center mr-[3%] whitespace-nowrap'>
                             <p className='font-libre text-[2rem] 2xl:text-[3rem]'>CAFÉ de JÚR</p>
@@ -187,6 +191,11 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                             </div>
                         )}
                     </div>
+
+                    <div className='flex flex-row w-full items-center justify-end py-2 bg-white'>
+                            <button className='mr-2'><ShoppingCartIcon /></button>
+                            <button className='mr-[3rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
+                        </div>
                 </div>
             )}
         </>
