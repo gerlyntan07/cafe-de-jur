@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 15, 2025 at 03:15 PM
+-- Generation Time: Jun 15, 2025 at 05:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -158,15 +158,6 @@ CREATE TABLE `cart_item` (
   `totalPrice` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `cart_item`
---
-
-INSERT INTO `cart_item` (`cartItemID`, `accountID`, `productID`, `variantID`, `quantity`, `totalPrice`) VALUES
-(3, 22, 32, 29, 1, 119.00),
-(4, 22, 7, NULL, 2, 215.00),
-(5, 22, 10, NULL, 2, 190.00);
-
 -- --------------------------------------------------------
 
 --
@@ -178,16 +169,6 @@ CREATE TABLE `cart_item_addon` (
   `cartItemID` int(11) NOT NULL,
   `addOnID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart_item_addon`
---
-
-INSERT INTO `cart_item_addon` (`cartAddOnID`, `cartItemID`, `addOnID`) VALUES
-(2, 3, 12),
-(3, 3, 19),
-(4, 4, 1),
-(5, 5, 11);
 
 -- --------------------------------------------------------
 
@@ -258,13 +239,6 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `sessions`
---
-
-INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('9Mr9tO2vPxSM_6YoCdP3X1VzwsOhS1Vm', 1750079732, '{\"cookie\":{\"originalMaxAge\":86400000,\"expires\":\"2025-06-16T12:10:32.101Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"accountID\":22,\"email\":\"gerlyntan07@gmail.com\",\"userRole\":\"Customer\",\"firstname\":\"Gerlyn\",\"lastname\":\"Tan\"}');
-
---
 -- Indexes for dumped tables
 --
 
@@ -301,8 +275,8 @@ ALTER TABLE `cart_item`
 --
 ALTER TABLE `cart_item_addon`
   ADD PRIMARY KEY (`cartAddOnID`),
-  ADD KEY `cartItemID` (`cartItemID`),
-  ADD KEY `addOnID` (`addOnID`);
+  ADD KEY `addOnID` (`addOnID`),
+  ADD KEY `cart_item_addon_ibfk_1` (`cartItemID`);
 
 --
 -- Indexes for table `product`
@@ -342,13 +316,13 @@ ALTER TABLE `beverage_variant`
 -- AUTO_INCREMENT for table `cart_item`
 --
 ALTER TABLE `cart_item`
-  MODIFY `cartItemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cartItemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `cart_item_addon`
 --
 ALTER TABLE `cart_item_addon`
-  MODIFY `cartAddOnID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cartAddOnID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -378,7 +352,7 @@ ALTER TABLE `cart_item`
 -- Constraints for table `cart_item_addon`
 --
 ALTER TABLE `cart_item_addon`
-  ADD CONSTRAINT `cart_item_addon_ibfk_1` FOREIGN KEY (`cartItemID`) REFERENCES `cart_item` (`cartItemID`),
+  ADD CONSTRAINT `cart_item_addon_ibfk_1` FOREIGN KEY (`cartItemID`) REFERENCES `cart_item` (`cartItemID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `cart_item_addon_ibfk_2` FOREIGN KEY (`addOnID`) REFERENCES `addon` (`addOnID`);
 COMMIT;
 

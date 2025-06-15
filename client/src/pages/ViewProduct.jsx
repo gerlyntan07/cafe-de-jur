@@ -138,7 +138,7 @@ function ViewProduct() {
             return addOn ? sum + Number(addOn.price) : sum;
         }, 0);
 
-        const total = (base * qty) + addOnTotal;
+        const total = (base + addOnTotal) * qty;
         console.log('Final calculated price:', total);
         setCurrentPrice(isNaN(total) ? '0.00' : total.toFixed(2));
     };
