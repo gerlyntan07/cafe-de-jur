@@ -8,6 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import UseLogout from '../hooks/UseLogout.js';
+import Cart from './Cart.jsx';
 
 function Header({ toggleLogin, isAuthenticated, userName }) {
     const logout = UseLogout();
@@ -32,6 +33,17 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
     const toggleMenu = () => {
         setMenuOpen(prev => !prev);
     }
+
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    const toggleCart = () => {
+        setIsCartOpen(prev => !prev);
+        if (!isCartOpen) {
+            document.title = "Cart | CAFÉ de JÚR";
+        } else {
+            document.title = "CAFÉ de JÚR";
+        }
+    };
 
     useEffect(() => {
         const sectionIds = ['home', 'menu', 'about', 'contact', 'loginPopup', 'signup'];
@@ -118,9 +130,25 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                         </div>
 
                         <div className='flex flex-row items-center justify-end py-2 bg-white shadow-md'>
-                            <button className='mr-2'><ShoppingCartIcon /></button>
+                            <button className='mr-2 cursor-pointer' onClick={() => {
+                                if (!isAuthenticated) {
+                                    toggleLogin();
+                                } else {
+                                    toggleCart();
+                                }
+                            }}><ShoppingCartIcon /></button>
                             <button className='mr-[1rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
                         </div>
+                        
+                        {isCartOpen && isAuthenticated && (
+                            <>
+                                <div
+                                    className="fixed inset-0 z-40"
+                                    onClick={toggleCart}
+                                />
+                                <Cart toggleCart={toggleCart} />
+                            </>
+                        )}
                     </div>
 
                     {isAuthenticated === true ? (
@@ -132,7 +160,7 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                             <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
                             <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
                             <div className='flex flex-col w-[90%] items-center justify-center rounded'>
-                                <button onClick={toggleAccount} className='w-full rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{color: 'white', marginRight: 1}} />{userName}</button>
+                                <button onClick={toggleAccount} className='w-full rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{ color: 'white', marginRight: 1 }} />{userName}</button>
                                 <div className={`${isAccount ? `flex` : `hidden`} rounded bg-darkAccent w-full flex-col items-center`}>
                                     <HashLink className={myAccLinkClass('#myAcc')} to="/myAcc">MY ACCOUNT</HashLink>
                                     <button className='w-[90%] cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100' onClick={logout}>LOG OUT</button>
@@ -177,8 +205,8 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
 
                         {isAuthenticated === true ? (
                             <div className='flex flex-col w-[20%] items-center justify-center rounded'>
-                                <button onClick={toggleAccount} className='w-full flex flex-row items-center justify-center cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{color: 'white', marginRight: 1}} />{userName}</button>
-                                <div className={`${isAccount ? `flex` : `hidden`} rounded shadow-md absolute bottom-[-75%] 2xl:bottom-[-60%] bg-darkAccent flex-col items-center`}>
+                                <button onClick={toggleAccount} className='w-full flex flex-row items-center justify-center cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 transition-all duration-100 uppercase'><AccountCircleOutlinedIcon sx={{ color: 'white', marginRight: 1 }} />{userName}</button>
+                                <div className={`${isAccount ? `flex` : `hidden`} rounded shadow-md absolute bottom-[-27%] 2xl:bottom-[-23%] bg-darkAccent flex-col items-center`}>
                                     <HashLink className={myAccLinkClassPC('#myAcc')} to="/myAcc">MY ACCOUNT</HashLink>
                                     <button className='w-full cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100' onClick={logout}>LOG OUT</button>
                                 </div>
@@ -193,9 +221,25 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                     </div>
 
                     <div className='flex flex-row w-full items-center justify-end py-2 bg-white'>
-                            <button className='mr-2'><ShoppingCartIcon /></button>
-                            <button className='mr-[3rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
-                        </div>
+                        <button className='mr-2 cursor-pointer' onClick={() => {
+                            if (!isAuthenticated) {
+                                toggleLogin();
+                            } else {
+                                toggleCart();
+                            }
+                        }}><ShoppingCartIcon /></button>
+                        <button className='mr-[3rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
+                    </div>
+
+                    {isCartOpen && isAuthenticated && (
+                        <>
+                            <div
+                                className="fixed inset-0 z-40"
+                                onClick={toggleCart}
+                            />
+                            <Cart toggleCart={toggleCart} />
+                        </>
+                    )}
                 </div>
             )}
         </>

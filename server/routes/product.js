@@ -2,6 +2,43 @@ const express = require('express');
 const router = express.Router();
 const db = require("../db.js");
 
+router.post('/addtocart', (req, res) => {
+    const { accountID, productNumber, selectedVariant, quantity, currentPrice, selectedAddOns } = req.body;
+    const cartValues = [
+        accountID,
+        productNumber,
+        selectedVariant,
+        quantity,
+        currentPrice
+    ];
+    const insertToCart = `INSERT INTO cart_item (accountID, productID, variantID, quantity, totalPrice)
+    VALUES (?, ?, ?, ?, ?)`;
+
+    db.query(insertToCart, cartValues, (err, cartRes) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        if (cartRes.affectedRows === 0) {
+            res.status(500).json({ message: 'insert failed' });
+        }
+
+        const cartID = cartRes.insertId;
+        if (selectedAddOns && selectedAddOns.length > 0) {
+            const addOnValues = selectedAddOns.map(addOnID => [cartID, addOnID]);
+            const insertToCartAddOn = `INSERT INTO cart_item_addon (cartItemID, addOnID)
+            VALUES ?`;
+
+            db.query(insertToCartAddOn, [addOnValues], (err, addOnRes) => {
+                if (err) return res.status(500).json({ error: err.message });
+
+                return res.json({ message: 'Added to cart with add-ons' });
+            })
+        } else{
+            return res.json({ message: 'Added to cart (no add-ons)' });
+        }
+
+    })
+})
+
 router.post('/getSelectedProduct', (req, res) => {
     const { selectedProductID } = req.body;
     const readProduct = `SELECT 
@@ -11,6 +48,7 @@ router.post('/getSelectedProduct', (req, res) => {
         p.description,
         p.productImgURL,
         p.drinkType,
+        bv.variantID,
         bv.size,
         bv.price,
         p.price AS base_price
@@ -25,10 +63,10 @@ router.post('/getSelectedProduct', (req, res) => {
             const readAddOns = `SELECT * FROM addon WHERE category = ?`;
             db.query(readAddOns, [category], (err, addOnsRes) => {
                 if (err) return res.status(500).json({ error: err.message });
-                if(addOnsRes.length > 0){
+                if (addOnsRes.length > 0) {
                     res.json({ productDetails: productRes, addOnsList: addOnsRes });
-                }                
-            })            
+                }
+            })
         }
     })
 })

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2025 at 02:15 PM
+-- Generation Time: Jun 15, 2025 at 03:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,6 +146,52 @@ INSERT INTO `beverage_variant` (`variantID`, `productID`, `size`, `price`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart_item`
+--
+
+CREATE TABLE `cart_item` (
+  `cartItemID` int(11) NOT NULL,
+  `accountID` int(11) NOT NULL,
+  `productID` int(11) NOT NULL,
+  `variantID` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `totalPrice` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_item`
+--
+
+INSERT INTO `cart_item` (`cartItemID`, `accountID`, `productID`, `variantID`, `quantity`, `totalPrice`) VALUES
+(3, 22, 32, 29, 1, 119.00),
+(4, 22, 7, NULL, 2, 215.00),
+(5, 22, 10, NULL, 2, 190.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_item_addon`
+--
+
+CREATE TABLE `cart_item_addon` (
+  `cartAddOnID` int(11) NOT NULL,
+  `cartItemID` int(11) NOT NULL,
+  `addOnID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_item_addon`
+--
+
+INSERT INTO `cart_item_addon` (`cartAddOnID`, `cartItemID`, `addOnID`) VALUES
+(2, 3, 12),
+(3, 3, 19),
+(4, 4, 1),
+(5, 5, 11);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product`
 --
 
@@ -212,6 +258,13 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
+('9Mr9tO2vPxSM_6YoCdP3X1VzwsOhS1Vm', 1750079732, '{\"cookie\":{\"originalMaxAge\":86400000,\"expires\":\"2025-06-16T12:10:32.101Z\",\"secure\":false,\"httpOnly\":true,\"path\":\"/\"},\"accountID\":22,\"email\":\"gerlyntan07@gmail.com\",\"userRole\":\"Customer\",\"firstname\":\"Gerlyn\",\"lastname\":\"Tan\"}');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -233,6 +286,23 @@ ALTER TABLE `addon`
 ALTER TABLE `beverage_variant`
   ADD PRIMARY KEY (`variantID`),
   ADD KEY `productID` (`productID`);
+
+--
+-- Indexes for table `cart_item`
+--
+ALTER TABLE `cart_item`
+  ADD PRIMARY KEY (`cartItemID`),
+  ADD KEY `accountID` (`accountID`),
+  ADD KEY `productID` (`productID`),
+  ADD KEY `variantID` (`variantID`);
+
+--
+-- Indexes for table `cart_item_addon`
+--
+ALTER TABLE `cart_item_addon`
+  ADD PRIMARY KEY (`cartAddOnID`),
+  ADD KEY `cartItemID` (`cartItemID`),
+  ADD KEY `addOnID` (`addOnID`);
 
 --
 -- Indexes for table `product`
@@ -269,6 +339,18 @@ ALTER TABLE `beverage_variant`
   MODIFY `variantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
+-- AUTO_INCREMENT for table `cart_item`
+--
+ALTER TABLE `cart_item`
+  MODIFY `cartItemID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `cart_item_addon`
+--
+ALTER TABLE `cart_item_addon`
+  MODIFY `cartAddOnID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
@@ -283,6 +365,21 @@ ALTER TABLE `product`
 --
 ALTER TABLE `beverage_variant`
   ADD CONSTRAINT `beverage_variant_ibfk_1` FOREIGN KEY (`productID`) REFERENCES `product` (`productID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `cart_item`
+--
+ALTER TABLE `cart_item`
+  ADD CONSTRAINT `cart_item_ibfk_1` FOREIGN KEY (`accountID`) REFERENCES `account` (`accountID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `cart_item_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `product` (`productID`),
+  ADD CONSTRAINT `cart_item_ibfk_3` FOREIGN KEY (`variantID`) REFERENCES `beverage_variant` (`variantID`);
+
+--
+-- Constraints for table `cart_item_addon`
+--
+ALTER TABLE `cart_item_addon`
+  ADD CONSTRAINT `cart_item_addon_ibfk_1` FOREIGN KEY (`cartItemID`) REFERENCES `cart_item` (`cartItemID`),
+  ADD CONSTRAINT `cart_item_addon_ibfk_2` FOREIGN KEY (`addOnID`) REFERENCES `addon` (`addOnID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginPopup from '../components/LoginPopup.jsx';
 import Header from '../components/Header';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { ToastContainer, toast } from 'react-toastify';
 
 function ViewProduct() {
     const navigate = useNavigate();
@@ -14,13 +15,14 @@ function ViewProduct() {
     const [prodDesc, setProdDesc] = useState('');
     const [prodImg, setProdImg] = useState('');
     const [prodCategory, setProdCategory] = useState('');
-    const [selectedVariant, setSelectedVariant] = useState('');
+    const [selectedVariant, setSelectedVariant] = useState(null);
     const [currentPrice, setCurrentPrice] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [addOns, setAddOns] = useState([]);
     const [selectedAddOns, setSelectedAddOns] = useState([]);
     const [isAddOns, setIsAddOns] = useState(false);
     const [basePrice, setBasePrice] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const handleAddOnChange = (addonID) => {
@@ -49,6 +51,7 @@ function ViewProduct() {
                 setProdCategory(product.category);
                 setProductDetails(res.data.productDetails);
                 setAddOns(res.data.addOnsList);
+                console.log(res.data.productDetails);
 
                 if (product.category !== 'Beverage') {
                     setBasePrice(product.base_price); // <--- set unit price
@@ -71,6 +74,7 @@ function ViewProduct() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userName, setUserName] = useState('');
+    const [accountID, setAccountID] = useState(null);
     useEffect(() => {
         axios.get('/session')
             .then((res) => {
@@ -79,6 +83,7 @@ function ViewProduct() {
                 } else {
                     setUserName(res.data.firstname);
                     setIsAuthenticated(true);
+                    setAccountID(res.data.accountID);
                 }
             })
             .catch((error) => {
@@ -104,34 +109,38 @@ function ViewProduct() {
         let base = 0;
 
         if (prodCategory === 'Beverage') {
-            const variant = productDetails.find(v => v.size === input);
+            // Convert input to number for comparison
+            const numericInput = Number(input);
+
+            // Find variant with strict numeric comparison
+            const variant = productDetails.find(v => {
+                return v.variantID === numericInput;
+            });
+
             if (variant) {
                 base = Number(variant.price);
             } else {
-                setCurrentPrice('');
+                console.error('No variant matched! Available variants:', productDetails);
+                setCurrentPrice('0.00');
                 return;
             }
         } else {
             if (basePrice !== null) {
                 base = Number(basePrice);
             } else {
-                setCurrentPrice('');
+                setCurrentPrice('0.00');
                 return;
             }
         }
 
-        // ✅ Convert addOn.price to number safely
         const addOnTotal = selectedAddOns.reduce((sum, id) => {
             const addOn = addOns.find(a => a.addOnID === id);
             return addOn ? sum + Number(addOn.price) : sum;
         }, 0);
 
         const total = (base * qty) + addOnTotal;
-
-        // ✅ Check if total is a valid number before formatting
-        setCurrentPrice(
-            isNaN(total) ? '0.00' : total.toFixed(2)
-        );
+        console.log('Final calculated price:', total);
+        setCurrentPrice(isNaN(total) ? '0.00' : total.toFixed(2));
     };
 
 
@@ -161,11 +170,66 @@ function ViewProduct() {
     };
 
 
+    const isPriceValid = () => {
+        return currentPrice && parseFloat(currentPrice) > 0;
+    };
+
+    const handleAddtoCart = async () => {
+        setIsLoading(true);
+        if (productDetails[0].category !== 'Beverage') {
+            setSelectedVariant(null);
+        }
+
+        const productNumber = productDetails[0].productID;
+
+        try {
+            const res = await axios.post('/addtocart', {
+                accountID,
+                productNumber,
+                selectedVariant,
+                quantity,
+                currentPrice,
+                selectedAddOns,
+            });
+
+            if (
+                res.data.message === 'Added to cart with add-ons' ||
+                res.data.message === 'Added to cart (no add-ons)'
+            ) {
+                setIsLoading(false);
+                toast.success('Successfully added to cart', {
+                    autoClose: 2000
+                })
+            }
+        } catch (err) {
+            setIsLoading(false);
+            if (err.response) {
+                // Backend responded with error status
+                console.error('Add to cart failed:', err.response.data.error || err.response.data.message);
+                toast.error('Add to cart failed. Please try again', {
+                    autoClose: 2000
+                })                
+            } else if (err.request) {
+                // Request was made but no response
+                console.error('No response from server:', err.request);                
+                toast.error('No response from server. Please check your connection.', {
+                    autoClose: 2000
+                })   
+            } else {
+                // Other unknown errors
+                console.error('Unexpected error:', err.message);                
+                toast.error('An unexpected error occurred. Please try again.', {
+                    autoClose: 2000
+                })   
+            }
+        }
+    }
 
     return (
         <>
             <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
             {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
+            <ToastContainer position='bottom-center' hideProgressBar={true} />
             <section className='pt-45 pb-20 2xl:pt-50 w-full flex flex-col items-center justify-center'>
                 <button className='w-full md:w-[80%] lg:w-[90%] xl:w-[80%] flex flex-row items-center justify-start pl-3 cursor-pointer' onClick={() => navigate(-1)}>
                     <ArrowBackIcon sx={{ fontSize: 20 }} />
@@ -196,17 +260,12 @@ function ViewProduct() {
                                 <p className={sizeQuanLbl}>Size</p>
                                 <select className="font-noticia text-[1rem]'> px-2 py-1 rounded border outline-none" value={selectedVariant} onChange={handleSizeChange}
                                 >
-                                    <option value="" disabled>Select a size</option>
-                                    {productDetails.map((variant, index) => {
-                                        if (variant.size) {
-                                            return (
-                                                <option key={index} value={variant.size}>
-                                                    {variant.size}
-                                                </option>
-                                            );
-                                        } else {
-                                            return null;
-                                        }
+                                    <option value="">Select a size</option>
+                                    {productDetails.map((variant) => {
+                                        return (
+                                            <option key={variant.variantID} value={variant.variantID}>
+                                                {variant.size}
+                                            </option>)
                                     })}
                                 </select>
                             </div>
@@ -257,8 +316,38 @@ function ViewProduct() {
                 </div>
 
                 <div className='fixed bottom-0 left-0 w-full flex justify-around z-50 lg:hidden'>
-                    <button className='bg-lightBrown text-white w-[50%] py-3 font-noticia'>Add to cart</button>
-                    <button className='bg-darkBrown text-white w-[50%] py-3 font-noticia'>Buy now</button>
+                    <button className='bg-lightBrown text-white w-[50%] py-3 font-noticia'
+                        disabled={isLoading}
+                        onClick={() => {
+                            if (!isAuthenticated) {
+                                setIsLoginOpen(true);
+                                return;
+                            } else if (!isPriceValid()) {
+                                toast.error('Please select a valid size/variant before adding to cart', {
+                                    autoClose: 3000,
+                                })
+                                return;
+                            } else {
+                                handleAddtoCart();
+                                return;
+                            }
+                        }}
+                    >Add to cart</button>
+
+                    <button className='bg-darkBrown text-white w-[50%] py-3 font-noticia'
+                        disabled={isLoading}
+                        onClick={() => {
+                            if (!isAuthenticated) {
+                                setIsLoginOpen(true);
+                                return;
+                            } else if (!isPriceValid()) {
+                                toast.error('Please select a valid size/variant before buying', {
+                                    autoClose: 3000,
+                                })
+                                return;
+                            }
+                        }}
+                    >Buy now</button>
                 </div>
 
                 {/* desktop */}
@@ -277,17 +366,12 @@ function ViewProduct() {
                                     <p className={sizeQuanLbl}>Size</p>
                                     <select className="font-noticia text-[1rem]'> px-2 py-1 rounded border outline-none cursor-pointer" value={selectedVariant} onChange={handleSizeChange}
                                     >
-                                        <option value="" disabled>Select a size</option>
-                                        {productDetails.map((variant, index) => {
-                                            if (variant.size) {
-                                                return (
-                                                    <option key={index} value={variant.size}>
-                                                        {variant.size}
-                                                    </option>
-                                                );
-                                            } else {
-                                                return null;
-                                            }
+                                        <option value="">Select a size</option>
+                                        {productDetails.map((variant) => {
+                                            return (
+                                                <option key={variant.variantID} value={variant.variantID}>
+                                                    {variant.size}
+                                                </option>)
                                         })}
                                     </select>
                                 </div>
@@ -333,8 +417,37 @@ function ViewProduct() {
                         </div>
 
                         <div className='w-full hidden flex-row justify-start mt-5 lg:flex gap-5'>
-                            <button className='bg-lightBrown text-white px-10 py-3 font-noticia cursor-pointer'>Add to cart</button>
-                            <button className='bg-darkBrown text-white px-10 py-3 font-noticia cursor-pointer'>Buy now</button>
+                            <button className='bg-lightBrown text-white px-10 py-3 font-noticia cursor-pointer'
+                                disabled={isLoading}
+                                onClick={() => {
+                                    if (!isAuthenticated) {
+                                        setIsLoginOpen(true);
+                                        return;
+                                    } else if (!isPriceValid()) {
+                                        toast.error('Please select a valid size/variant before adding to cart', {
+                                            autoClose: 3000,
+                                        })
+                                        return;
+                                    } else {
+                                        handleAddtoCart();
+                                        return;
+                                    }
+                                }}
+                            >Add to cart</button>
+                            <button className='bg-darkBrown text-white px-10 py-3 font-noticia cursor-pointer'
+                                disabled={isLoading}
+                                onClick={() => {
+                                    if (!isAuthenticated) {
+                                        setIsLoginOpen(true);
+                                        return;
+                                    } else if (!isPriceValid()) {
+                                        toast.error('Please select a valid size/variant before buying', {
+                                            autoClose: 3000,
+                                        })
+                                        return;
+                                    }
+                                }}
+                            >Buy now</button>
                         </div>
                     </div>
                 </div>
