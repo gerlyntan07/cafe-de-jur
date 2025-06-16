@@ -2,6 +2,36 @@ const express = require('express');
 const router = express.Router();
 const db = require("../db.js");
 
+router.get('/productSearch/:search', (req, res) => {
+    const { search } = req.params;    
+    const query = `
+    SELECT 
+      p.productID,
+      p.productName,
+      p.category,
+      p.productImgURL,
+      p.drinkType,
+      MIN(bv.price) AS min_price,
+      MAX(bv.price) AS max_price,
+      p.price AS base_price
+    FROM product p
+    LEFT JOIN beverage_variant bv ON p.productID = bv.productID
+    WHERE
+        (LOWER(p.productName) LIKE LOWER(?) OR
+        LOWER(p.description) LIKE LOWER(?) OR
+        LOWER(p.category) LIKE LOWER(?) OR
+        LOWER(p.drinkType) LIKE LOWER(?))
+    GROUP BY p.productID
+  `;
+
+  const searchKeyword = `%${search}%`;
+    db.query(query, [searchKeyword, searchKeyword, searchKeyword, searchKeyword], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({results: results});
+    });
+});
+
+
 router.post('/getSelectedProduct', (req, res) => {
     const { selectedProductID } = req.body;
     const readProduct = `SELECT 

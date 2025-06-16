@@ -192,18 +192,18 @@ const MyAccAddress = () => {
         }
     }
 
-    const cancelSaveBtn = `w-full font-noticia font-bold text-sm md:text-md text-gray-700 rounded-full py-2 mt-5 cursor-pointer`;
+    const cancelSaveBtn = `w-full font-noticia font-bold text-sm md:text-base text-gray-700 rounded-full py-2 mt-5 cursor-pointer`;
     const profileForm = `${isAdd ? 'ring-1 ring-gray-400 ring-offset-2' : ``} bg-inputGray w-[90%] mt-5 flex flex-col pl-3 rounded-[10px] justify-center`;
-    const inputStyle = 'outline-none font-noticia font-bold text-gray-600 text-md py-2';
+    const inputStyle = 'outline-none font-noticia font-bold text-gray-600 text-base py-2';
     return (
         <div className='w-[90%] md:w-[60%] lg:w-[40%] rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
-            <p className='w-full font-noticia font-bold text-md pb-3 border-b-1 pl-5 mb-5 lg:text-lg'>My Address</p>
+            <p className='w-full font-noticia font-bold text-base pb-3 border-b-1 pl-5 mb-5 lg:text-lg'>My Address</p>
             {noAddress && !isAdd && (
-                <p className='mt-5 font-noticia text-gray-500 text-md italic'>No address found</p>
+                <p className='mt-5 font-noticia text-gray-500 text-base italic'>No address found</p>
             )}
             {!noAddress && !isAdd && (
                 <div className='w-[90%] flex flex-col items-center justify-center xl:flex-row xl:py-10 xl:justify-between xl:gap-5'>
-                    <p className='font-noticia text-md md:text-lg xl:w-[70%]'>{addressInfo}</p>
+                    <p className='font-noticia text-base md:text-lg xl:w-[70%]'>{addressInfo}</p>
                     <button className={`${cancelSaveBtn} bg-lightBrownBG xl:mt-0 xl:w-[30%]`} onClick={() => setIsAdd(true)}>Edit</button>
                 </div>
             )}
@@ -264,7 +264,7 @@ const MyAccAddress = () => {
                 <button className={`${cancelSaveBtn} bg-lightBrownBG`} onClick={handleSaveAddress}>Save</button>
             </div>
             {noAddress && (
-                <button className={`${!isAdd ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-10 text-md cursor-pointer`} onClick={() => setIsAdd(true)}>Add Address</button>
+                <button className={`${!isAdd ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-10 text-base cursor-pointer`} onClick={() => setIsAdd(true)}>Add Address</button>
             )}
         </div>
     )

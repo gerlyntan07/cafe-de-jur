@@ -12,7 +12,7 @@ import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
 import axios from '../hooks/AxiosConfig.js';
 
-function Landing() {
+function Landing() {  
   useEffect(() => {
     document.title = "CAFÉ de JÚR";
   }, []);
@@ -43,7 +43,7 @@ function Landing() {
       document.title = "CAFÉ de JÚR";
     }
   }
-
+  
   return (
     <>
       <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
@@ -54,7 +54,7 @@ function Landing() {
         <div className='h-[2px] w-[75%] bg-[#6F4E37] my-4 md:w-[45%] md:my-6' />
         <p className='font-inika text-[0.8rem] mb-[5rem] md:text-[1rem] 2xl:text-[1.2rem]'>START YOUR DAY WITH US</p>
 
-        <Link className='bg-darkBrown text-white font-inika text-[15px] text-center py-2 px-5 rounded-full hover:bg-darkAccent focus:outline-2 focus:outline-offset-2 focus:outline-darkAccent z-[100] 2xl:text-[1.5rem]'>ORDER NOW</Link>
+        <Link className='bg-darkBrown text-white font-inika text-[15px] text-center py-2 px-5 rounded-full hover:bg-darkAccent focus:outline-2 focus:outline-offset-2 focus:outline-darkAccent z-[100] 2xl:text-[1.5rem]' to={`/menu?type=Beverages`}>ORDER NOW</Link>
 
         <div
           style={{ backgroundImage: `url(${waves})` }}

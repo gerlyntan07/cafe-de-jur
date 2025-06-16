@@ -56,7 +56,7 @@ const Menu = () => {
     };
 
     const menuTypesTab = (tab) =>
-        `font-noticia px-2 py-2 lg:py-3 transition-colors text-black text-md lg:text-lg lg:ml-10 cursor-pointer ${activeTab === tab ? 'border-b-4 border-red-400 font-bold' : 'bg-transparent'
+        `font-noticia px-2 py-2 lg:py-3 transition-colors text-black text-base lg:text-lg lg:ml-10 cursor-pointer ${activeTab === tab ? 'border-b-4 border-red-400 font-bold' : 'bg-transparent'
         }`;
 
     const productListsStyle = `w-full md:w-[95%] lg:w-full 2xl:w-[90%] flex flex-col items-center justify-center gap-3 mt-10`;

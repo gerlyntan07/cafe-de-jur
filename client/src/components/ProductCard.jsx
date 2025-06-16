@@ -72,8 +72,8 @@ function ProductCard({ category }) {
               alt={product.productName}
               className="h-40 w-full md:h-50 lg:h-60 object-cover border-1 border-gray-400 rounded"
             />
-            <h3 className="w-full font-noticia text-sm md:text-md lg:text-lg mt-2 border-b-1 truncate">{product.productName}</h3>
-            <p className="font-noticia font-bold text-sm md:text-md lg:text-lg">
+            <h3 className="w-full font-noticia text-sm md:text-base lg:text-lg mt-2 border-b-1 truncate">{product.productName}</h3>
+            <p className="font-noticia font-bold text-sm md:text-base lg:text-lg">
               {product.min_price && product.max_price
                 ? (product.min_price === product.max_price
                   ? `₱${Number(product.min_price).toFixed(2)}`

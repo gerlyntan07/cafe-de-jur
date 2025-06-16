@@ -81,8 +81,8 @@ function MyAccount({ userData, isAuthenticated }) {
 
   const profileForm = `${isEdit ? 'ring-1 ring-gray-400 ring-offset-2' : ``} bg-inputGray w-[90%] mt-5 flex flex-col pl-3 rounded-[10px] justify-center`;
   const labelStyle = 'font-noticia text-gray-500 text-sm';
-  const inputStyle = 'outline-none font-noticia font-bold text-gray-600 text-md';
-  const cancelSaveBtn = `w-full font-noticia font-bold text-sm md:text-md text-gray-700 rounded-full py-2 mt-5 cursor-pointer`;
+  const inputStyle = 'outline-none font-noticia font-bold text-gray-600 text-base';
+  const cancelSaveBtn = `w-full font-noticia font-bold text-sm md:text-base text-gray-700 rounded-full py-2 mt-5 cursor-pointer`;
 
   //change pass
   const [isChangePass, setIsChangePass] = useState(false);
@@ -165,7 +165,7 @@ function MyAccount({ userData, isAuthenticated }) {
         {/* TODO */}
         {tab === 1 && isChangePass === false && (
           <div className='w-[90%] md:w-[60%] lg:w-[40%] rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
-            <p className='w-full font-noticia font-bold text-md pb-3 border-b-1 pl-5'>Contact Details</p>
+            <p className='w-full font-noticia font-bold text-lg pb-3 border-b-1 pl-5'>Contact Details</p>
             <div className={profileForm}>
               <label className={labelStyle} htmlFor="">First Name</label>
               <input disabled={!isEdit} type="text" className={inputStyle} name="firstname" value={formData.firstname} onChange={handleFormChange} />
@@ -196,14 +196,14 @@ function MyAccount({ userData, isAuthenticated }) {
               <button className={`${cancelSaveBtn} bg-lightBrownBG`} onClick={handleSaveProfile}>Save</button>
             </div>
 
-            <button className={`${!isEdit ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-5 text-md cursor-pointer`} onClick={() => setIsEdit(true)}>Edit</button>
-            <button className='font-noticia font-bold uppercase text-md mt-3 cursor-pointer' onClick={() => { setIsChangePass(true); setIsEdit(false); }}>Change Password</button>
+            <button className={`${!isEdit ? `flex` : `hidden`} justify-center items-center text-center font-noticia font-bold text-gray-700 rounded-full py-2 bg-lightBrownBG w-[90%] mt-5 text-base cursor-pointer`} onClick={() => setIsEdit(true)}>Edit</button>
+            <button className='font-noticia font-bold uppercase text-base mt-3 cursor-pointer' onClick={() => { setIsChangePass(true); setIsEdit(false); }}>Change Password</button>
           </div>
         )}
 
         {tab === 1 && isChangePass === true && (
           <div className='w-[90%] md:w-[60%] lg:w-[40%] rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
-            <p className='w-full font-noticia font-bold text-md pb-3 border-b-1 pl-5'>Change Password</p>
+            <p className='w-full font-noticia font-bold text-base pb-3 border-b-1 pl-5'>Change Password</p>
             <div className={passProfileForm}>
               <label className={labelStyle} htmlFor="">Current Password</label>
               <input type="password" className={inputStyle} name="currPass" value={passForm.currPass} onChange={handlePassChange} />

@@ -70,8 +70,6 @@ function ViewProduct() {
         updatePrice(selectedVariant, quantity);
     }, [selectedAddOns]);
 
-
-
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userName, setUserName] = useState('');
     const [accountID, setAccountID] = useState(null);
@@ -233,7 +231,7 @@ function ViewProduct() {
             <section className='pt-45 pb-20 2xl:pt-50 w-full flex flex-col items-center justify-center'>
                 <button className='w-full md:w-[80%] lg:w-[90%] xl:w-[80%] flex flex-row items-center justify-start pl-3 cursor-pointer' onClick={() => navigate(-1)}>
                     <ArrowBackIcon sx={{ fontSize: 20 }} />
-                    <p className='font-noticia ml-2 text-sm md:text-md lg:text-lg'>Back</p>
+                    <p className='font-noticia ml-2 text-sm md:text-base lg:text-lg'>Back</p>
                 </button>
 
 
@@ -249,8 +247,8 @@ function ViewProduct() {
                     </div>
 
                     <div className="mt-4">
-                        <p className="font-noticia text-sm md:text-md font-semibold text-gray-600 mb-1">Description</p>
-                        <p className="font-noticia text-sm md:text-md text-gray-600">{prodDesc}</p>
+                        <p className="font-noticia text-sm md:text-base font-semibold text-gray-600 mb-1">Description</p>
+                        <p className="font-noticia text-sm md:text-base text-gray-600">{prodDesc}</p>
                     </div>
 
 
@@ -453,8 +451,8 @@ function ViewProduct() {
                 </div>
 
                 <div className="hidden lg:flex w-[90%] xl:w-[80%] flex-col mt-10">
-                    <p className="font-noticia text-md font-semibold text-gray-600 mb-1">Description</p>
-                    <p className="font-noticia text-md text-gray-600">{prodDesc}</p>
+                    <p className="font-noticia text-base font-semibold text-gray-600 mb-1">Description</p>
+                    <p className="font-noticia text-base text-gray-600">{prodDesc}</p>
                 </div>
 
             </section>

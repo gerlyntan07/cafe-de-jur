@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router();
 const db = require("../db.js");
 
+router.post('/deleteAllCartItems', (req, res) => {
+    const del = `DELETE FROM cart_item WHERE accountID = ?`;
+    db.query(del, [req.session.accountID], (err, delRes) => {
+        if (err) return res.status(500).json({ error: err.message });
+        return res.json({message: 'Cart deleted'});
+    })
+})
+
 router.post('/deleteCartItem', (req, res) => {
     const {cartItem} = req.body;
     const delItem = `DELETE FROM cart_item WHERE cartItemID = ?`;

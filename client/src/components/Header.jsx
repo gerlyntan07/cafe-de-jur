@@ -9,8 +9,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import UseLogout from '../hooks/UseLogout.js';
 import Cart from './Cart.jsx';
+import axios from '../hooks/AxiosConfig.js';
+import { useNavigate } from 'react-router-dom';
 
 function Header({ toggleLogin, isAuthenticated, userName }) {
+    const navigate = useNavigate();
     const logout = UseLogout();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -106,6 +109,20 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
         setIsAccount(prev => !prev);
     }
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        if (!searchQuery.trim()) return;
+
+        try {
+                navigate(`/product-search/${searchQuery}`);
+            setSearchQuery('');
+
+        } catch (err) {
+            console.error('Search failed:', err);            
+        }
+    };
+
     return (
         <>
             {isMobile ? (
@@ -129,21 +146,30 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                             </button>
                         </div>
 
-                        <div className='flex flex-row items-center justify-end py-2 bg-white shadow-md'>
-                            <button className='mr-2 cursor-pointer' onClick={() => {
+                        <div className='w-full px-5 flex flex-row items-center justify-between py-2 bg-white shadow-md'>
+                            <form onSubmit={handleSearch} className='flex items-center bg-inputGray rounded-full px-2 py-1'>
+                                <SearchIcon className='text-gray-600 mr-2' />
+                                <input
+                                    className='font-noticia text-base bg-inputGray focus:outline-none'
+                                    type='text'
+                                    placeholder='Search here'
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                />
+                            </form>
+                            <button className='cursor-pointer' onClick={() => {
                                 if (!isAuthenticated) {
                                     toggleLogin();
                                 } else {
                                     toggleCart();
                                 }
                             }}><ShoppingCartIcon /></button>
-                            <button className='mr-[1rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
                         </div>
-                        
+
                         {isCartOpen && isAuthenticated && (
                             <>
                                 <div
-                                    className="fixed inset-0 z-40"
+                                    className="fixed inset-0 z-40 bg-black/50"
                                     onClick={toggleCart}
                                 />
                                 <Cart toggleCart={toggleCart} />
@@ -193,7 +219,7 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                     </div>
 
                     <div className="w-full h-[2.5rem] bg-darkBrown flex flex-row items-center justify-between">
-                        <div className='w-[20%] flex items-center justify-center overflow-visible relative'>
+                        <div className='w-[17%] flex items-center justify-center overflow-visible relative'>
                             <img src={logo} alt="" className="w-[40%] overflow-visible object-contain 2xl:w-[35%]" />
                         </div>
                         <div className="w-[60%] h-full flex flex-row items-center justify-center gap-15 2xl:gap-20">
@@ -220,7 +246,17 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                         )}
                     </div>
 
-                    <div className='flex flex-row w-full items-center justify-end py-2 bg-white'>
+                    <div className='flex flex-row w-full items-center justify-between px-[15%] py-2 bg-white'>
+                        <form onSubmit={handleSearch} className='flex items-center bg-inputGray rounded-full px-2 py-1'>
+                            <SearchIcon className='text-gray-600 mr-2' />
+                            <input
+                                className='font-noticia text-base bg-inputGray focus:outline-none'
+                                type='text'
+                                placeholder='Search here'
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </form>
                         <button className='mr-2 cursor-pointer' onClick={() => {
                             if (!isAuthenticated) {
                                 toggleLogin();
@@ -228,13 +264,12 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                                 toggleCart();
                             }
                         }}><ShoppingCartIcon /></button>
-                        <button className='mr-[3rem] font-noticia' onClick={toggleMenu}><SearchIcon /> SEARCH</button>
                     </div>
 
                     {isCartOpen && isAuthenticated && (
                         <>
                             <div
-                                className="fixed inset-0 z-40"
+                                className="fixed inset-0 z-40 bg-black/50"
                                 onClick={toggleCart}
                             />
                             <Cart toggleCart={toggleCart} />
