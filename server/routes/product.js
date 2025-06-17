@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const db = require("../db.js");
 
+router.post('/getVariantName', (req, res) => {
+    const {selectedVariant} = req.body;
+    const read = `SELECT * FROM beverage_variant WHERE variantID = ?`;
+    db.query(read, selectedVariant, (err, variantRes) => {
+        if (err) return res.status(500).json({ error: err.message });
+        return res.json({variantName: variantRes[0].size});
+    })
+})
+
 router.get('/productSearch/:search', (req, res) => {
     const { search } = req.params;    
     const query = `

@@ -8,6 +8,7 @@ import Menu from './pages/Menu.jsx'
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import ViewProduct from './pages/ViewProduct.jsx';
 import ProductSearch from './pages/ProductSearch.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -22,6 +23,7 @@ function App() {
         <Route path='/menu' element={<Menu />} />
         <Route path='/view-product' element={<ViewProduct />} />
         <Route path='/product-search/:search' element={<ProductSearch />} />
+        <Route path='/checkout' element={<Checkout />} />
 
         <Route path='/redirect-after-login' element={<PrivateRoute />} />
         <Route path='/myAcc' element={<PrivateRoute requiredRole='customer'><MyAccount /></PrivateRoute>} />

@@ -50,6 +50,8 @@ const product = require("./routes/product");
 app.use("/api", product);
 const cart = require("./routes/cart");
 app.use("/api", cart);
+const order = require("./routes/order");
+app.use("/api", order);
 
 app.get('/', (req, res) => {
     console.log("Request received at '/'");

@@ -51,7 +51,6 @@ function ViewProduct() {
                 setProdCategory(product.category);
                 setProductDetails(res.data.productDetails);
                 setAddOns(res.data.addOnsList);
-                console.log(res.data.productDetails);
 
                 if (product.category !== 'Beverage') {
                     setBasePrice(product.base_price); // <--- set unit price
@@ -137,7 +136,6 @@ function ViewProduct() {
         }, 0);
 
         const total = (base + addOnTotal) * qty;
-        console.log('Final calculated price:', total);
         setCurrentPrice(isNaN(total) ? '0.00' : total.toFixed(2));
     };
 
@@ -206,21 +204,56 @@ function ViewProduct() {
                 console.error('Add to cart failed:', err.response.data.error || err.response.data.message);
                 toast.error('Add to cart failed. Please try again', {
                     autoClose: 2000
-                })                
+                })
             } else if (err.request) {
                 // Request was made but no response
-                console.error('No response from server:', err.request);                
+                console.error('No response from server:', err.request);
                 toast.error('No response from server. Please check your connection.', {
                     autoClose: 2000
-                })   
+                })
             } else {
                 // Other unknown errors
-                console.error('Unexpected error:', err.message);                
+                console.error('Unexpected error:', err.message);
                 toast.error('An unexpected error occurred. Please try again.', {
                     autoClose: 2000
-                })   
+                })
             }
         }
+    }
+
+    const handleBuyNow = async () => {
+        if (!isAuthenticated) {
+            setIsLoginOpen(true);
+            return;
+        }
+
+        if (!isPriceValid()) {
+            toast.error('Please select a valid size/variant before buying', {
+                autoClose: 3000,
+            });
+            return;
+        }
+
+        try {
+            const res = await axios.post('/getVariantName', { selectedVariant })
+            const item = {
+                selectedProductID,
+                variant: res.data.variantName,
+                quantity,
+                addOns: selectedAddOns.map(id => {
+                    const addOn = addOns.find(a => a.addOnID === id);
+                    return { addOnID: id, name: addOn.name, price: addOn.price };
+                }),
+                price: parseFloat(currentPrice),
+                name: prodName,
+                img: prodImg
+            }
+
+            navigate('/checkout', { state: { items: [item] } });
+        } catch (err) {
+            console.error('Unexpected error:', err.message);
+        }
+
     }
 
     return (
@@ -334,18 +367,7 @@ function ViewProduct() {
 
                     <button className='bg-darkBrown text-white w-[50%] py-3 font-noticia'
                         disabled={isLoading}
-                        onClick={() => {
-                            if (!isAuthenticated) {
-                                setIsLoginOpen(true);
-                                return;
-                            } else if (!isPriceValid()) {
-                                toast.error('Please select a valid size/variant before buying', {
-                                    autoClose: 3000,
-                                })
-                                return;
-                            }
-                        }}
-                    >Buy now</button>
+                        onClick={handleBuyNow}>Buy now</button>
                 </div>
 
                 {/* desktop */}
@@ -434,18 +456,7 @@ function ViewProduct() {
                             >Add to cart</button>
                             <button className='bg-darkBrown text-white px-10 py-3 font-noticia cursor-pointer'
                                 disabled={isLoading}
-                                onClick={() => {
-                                    if (!isAuthenticated) {
-                                        setIsLoginOpen(true);
-                                        return;
-                                    } else if (!isPriceValid()) {
-                                        toast.error('Please select a valid size/variant before buying', {
-                                            autoClose: 3000,
-                                        })
-                                        return;
-                                    }
-                                }}
-                            >Buy now</button>
+                                onClick={handleBuyNow}>Buy now</button>
                         </div>
                     </div>
                 </div>
