@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const db = require("../db.js");
 
+router.put('/updateCartItemQuantity', (req, res) => {
+    const { cartItemID, quantity, totalPrice } = req.body;
+
+    const updateQuery = `UPDATE cart_item SET quantity = ?, totalPrice = ? WHERE cartItemID = ?`;
+
+    db.query(updateQuery, [quantity, totalPrice, cartItemID], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        return res.json({ message: 'Cart item updated successfully.' });
+    });
+});
+
 router.post('/deleteAllCartItems', (req, res) => {
     const del = `DELETE FROM cart_item WHERE accountID = ?`;
     db.query(del, [req.session.accountID], (err, delRes) => {

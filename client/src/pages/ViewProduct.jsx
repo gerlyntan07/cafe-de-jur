@@ -234,26 +234,46 @@ function ViewProduct() {
             return;
         }
 
-        try {
-            const res = await axios.post('/getVariantName', { selectedVariant })
-            const item = {
-                selectedProductID,
-                variant: res.data.variantName,
-                quantity,
-                addOns: selectedAddOns.map(id => {
-                    const addOn = addOns.find(a => a.addOnID === id);
-                    return { addOnID: id, name: addOn.name, price: addOn.price };
-                }),
-                price: parseFloat(currentPrice),
-                name: prodName,
-                img: prodImg
+        if (prodCategory === 'Beverage') {
+            try {
+                const res = await axios.post('/getVariantName', { selectedVariant })
+                const item = {
+                    selectedProductID,
+                    variant: res.data.variantName,
+                    variantID: selectedVariant,
+                    category: prodCategory,
+                    quantity,
+                    addOns: selectedAddOns.map(id => {
+                        const addOn = addOns.find(a => a.addOnID === id);
+                        return { addOnID: id, name: addOn.name, price: addOn.price };
+                    }),
+                    price: parseFloat(currentPrice),
+                    name: prodName,
+                    img: prodImg
+                }
+
+                navigate('/checkout', { state: { items: [item] } });
+            } catch (err) {
+                console.error('Unexpected error:', err.message);
             }
+        } else{
+            const item = {
+                    selectedProductID,
+                    variant: null,
+                    variantID: null,
+                    category: prodCategory,
+                    quantity,
+                    addOns: selectedAddOns.map(id => {
+                        const addOn = addOns.find(a => a.addOnID === id);
+                        return { addOnID: id, name: addOn.name, price: addOn.price };
+                    }),
+                    price: parseFloat(currentPrice),
+                    name: prodName,
+                    img: prodImg
+                }
 
-            navigate('/checkout', { state: { items: [item] } });
-        } catch (err) {
-            console.error('Unexpected error:', err.message);
+                navigate('/checkout', { state: { items: [item] } });
         }
-
     }
 
     return (

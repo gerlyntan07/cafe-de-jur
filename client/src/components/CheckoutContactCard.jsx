@@ -28,9 +28,9 @@ function CheckoutContactCard({ setLoading }) {
     const inputStyle = 'outline-none font-noticia font-bold text-gray-600 text-base';
 
     return (
-        <div className='w-full md:w-[60%] lg:w-[40%] rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
+        <div className='w-full md:w-full rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
             <p className='w-full font-noticia font-bold text-lg pb-3 border-b-1 pl-5'>Contact Details</p>
-            <div className='w-full flex flex-col items-center justify center'>
+            <div className='w-full xl:w-[90%] flex flex-col xl:flex-row xl:gap-3 items-center justify center'>
                 <div className={profileForm}>
                     <label className={labelStyle} htmlFor="">First Name</label>
                     <input disabled type="text" className={inputStyle} name="firstname" value={contactDetails.firstname || ''} />
