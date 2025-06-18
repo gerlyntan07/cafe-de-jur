@@ -5,10 +5,13 @@ import logo from '/cafedejur-logo.png';
 import axios from '../hooks/AxiosConfig.js';
 import Card from '@mui/material/Card';
 import ErrorIcon from '@mui/icons-material/Error';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function LoginPopup({ toggleLogin }) {
     const [loginErrorMsg, setLoginErrorMsg] = useState('');
     const [isLoginError, setIsLoginError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         document.title = "Log In | CAFÉ de JÚR";
@@ -42,14 +45,18 @@ function LoginPopup({ toggleLogin }) {
     const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        setLoading(true);
         try {
             const res = await axios.post(`/login`, values);
             setIsLoginError(false);
+            setLoading(false);
             navigate('/redirect-after-login');            
         } catch (err) {
+            setLoading(false);
             console.error('Login failed:', err.response?.data || err.message);
             setIsLoginError(true);
-            setLoginErrorMsg(err.response?.data?.message || 'Login error');
+            setLoginErrorMsg(err.response?.data?.message || 'Login error. Please try again later.');
         }
     }
 
@@ -57,6 +64,14 @@ function LoginPopup({ toggleLogin }) {
 
     return (
         <section id='loginPopup' className='fixed top-0 left-0 w-full h-full bg-black/50 z-[10000] flex items-center justify-center'>
+            {loading && (
+                <Backdrop
+                    sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            )}
             <form autoComplete='off' onSubmit={handleLogin} className='w-[90%] md:w-[60%] lg:w-[40%] 2xl:w-[30%] flex flex-col items-center justify-center rounded-[20px] shadow-lg bg-white overflow-hidden'>
                 <button className='w-[85%] flex items-center justify-end mt-5 cursor-pointer' type='button' onClick={toggleLogin}><BsX color='black' size={25} /></button>
                 <div className='w-full flex items-center justify-center'>

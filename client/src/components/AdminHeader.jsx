@@ -4,10 +4,6 @@ import logo from '/cafedejur-logo.png';
 import { FiAlignRight } from "react-icons/fi";
 import { BsX } from "react-icons/bs";
 import { HashLink } from 'react-router-hash-link';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import UseLogout from '../hooks/UseLogout.js';
 
 function Header() {
