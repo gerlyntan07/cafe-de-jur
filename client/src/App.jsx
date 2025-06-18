@@ -10,6 +10,7 @@ import ViewProduct from './pages/ViewProduct.jsx';
 import ProductSearch from './pages/ProductSearch.jsx';
 import Checkout from './pages/Checkout.jsx';
 import ManageProducts from './pages/ManageProducts.jsx';
+import AddProduct from './pages/AddProduct.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -30,6 +31,7 @@ function App() {
         <Route path='/checkout' element={<PrivateRoute requiredRole='customer'><Checkout /></PrivateRoute>} />
         <Route path='/admin-dashboard' element={<PrivateRoute requiredRole='admin'><AdminDashboard /></PrivateRoute>} />        
         <Route path='/admin-products' element={<PrivateRoute requiredRole='admin'><ManageProducts /></PrivateRoute>} />
+        <Route path='/add-products' element={<PrivateRoute requiredRole='admin'><AddProduct /></PrivateRoute>} />
       </Routes>
     </Router>
   )

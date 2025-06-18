@@ -98,6 +98,7 @@ router.get('/getProducts', (req, res) => {
       p.category,
       p.productImgURL,
       p.drinkType,
+      p.totalSold,
       MIN(bv.price) AS min_price,
       MAX(bv.price) AS max_price,
       p.price AS base_price

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader.jsx';
-import { HashLink } from 'react-router-hash-link';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from '../hooks/AxiosConfig.js';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -14,12 +13,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-function ManageProducts() {
+function AddProduct() {
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [prodCategory, setProdCategory] = useState('All');
     const [searchValue, setSearchValue] = useState('');
+    
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -64,7 +64,7 @@ function ManageProducts() {
     return (
         <div className='flex flex-col w-full lg:flex-row bg-gray-100 items-start justify-start'>
             <AdminHeader />
-            <section id='admin-products' className='w-full h-screen pt-35 flex flex-col items-center justify-start xl:h-screen xl:pt-15 overflow-y-auto'>
+            <section id='add-product' className='w-full h-screen pt-35 flex flex-col items-center justify-start xl:h-screen xl:pt-15 overflow-y-auto'>
                 <div className='w-[90%] xl:w-[85%] flex flex-col items-start justify-start'>
                     <form className='flex w-[60%] items-center px-2 border-b-2 border-gray-300 py-1'>
                         <SearchIcon className='text-gray-600 mr-2' />
@@ -77,7 +77,7 @@ function ManageProducts() {
                         />
                     </form>
 
-                    <HashLink to='/add-products' className='bg-lightBrownBG py-2 px-4 font-noticia cursor-pointer mt-4'>Add Product</HashLink>
+                    <button className='bg-lightBrownBG py-2 px-4 font-noticia cursor-pointer mt-4'>Add Product</button>
 
                     <div className='flex flex-col w-full pb-10 pt-5 mt-5 xl:pb-20'>
                         <div className='flex flex-row mb-3'>
@@ -146,4 +146,4 @@ function ManageProducts() {
     )
 }
 
-export default ManageProducts
+export default AddProduct

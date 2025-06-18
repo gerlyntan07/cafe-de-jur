@@ -65,7 +65,7 @@ function Header() {
                         } flex flex-col items-center pt-6`}>
                         <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
                         <HashLink className={mobileLinkClass(isActive('/admin-dashboard', '#admin-dashboard'))} smooth to='/admin-dashboard' >Dashboard</HashLink>
-                        <HashLink className={mobileLinkClass(isActive('/admin-products', '#admin-products'))} smooth to="/admin-products">Products</HashLink>
+                        <HashLink className={mobileLinkClass(isActive('/admin-products', '#admin-products', '/add-product', '#add-product'))} smooth to="/admin-products">Products</HashLink>
                         <button className='w-[90%] cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100 uppercase' onClick={logout}>Log out</button>
                     </div>
 
@@ -76,7 +76,7 @@ function Header() {
                     <div className='w-full flex flex-col items-center'>
                         <p className='font-libre text-white text-[2rem] mt-10 mb-20 xl:text-[2.5rem] 2xl:text-[3rem]'>CAFÉ de JÚR</p>
                         <HashLink className={desktopLeftLinkClass(isActive('/admin-dashboard', '#admin-dashboard'))} smooth to='/admin-dashboard' >Dashboard</HashLink>
-                        <HashLink className={desktopLeftLinkClass(isActive('/admin-products', '#admin-products'))} smooth to="/admin-products">Products</HashLink>
+                        <HashLink className={desktopLeftLinkClass(isActive('/admin-products', '#admin-products', '/add-product', '#add-product'))} smooth to="/admin-products">Products</HashLink>
                     </div>
                     <button className='w-[90%] cursor-pointer rounded font-inika text-[1.2rem] text-white text-center px-15 py-3 transition-all duration-100 mb-10' onClick={logout}>Log out</button>
                 </div>
