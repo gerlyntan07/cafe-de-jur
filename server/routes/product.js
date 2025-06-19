@@ -104,6 +104,7 @@ router.get('/getProducts', (req, res) => {
       p.price AS base_price
     FROM product p
     LEFT JOIN beverage_variant bv ON p.productID = bv.productID
+    WHERE isDeleted = '0'
     GROUP BY p.productID`
     db.query(readAll, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });

@@ -8,6 +8,11 @@ import { ToastContainer, toast } from 'react-toastify';
 function AdminDashboard() {
   const [prodCount, setProdCount] = useState(null);
   const [soldCount, setSoldCount] = useState(null);
+
+  useEffect(() => {
+    document.title = `CAFÉ de JÚR`;
+  },[]);
+
   useEffect(() => {
     const fetchProdCount = async() => {
       try{

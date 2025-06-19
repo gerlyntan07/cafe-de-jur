@@ -52,6 +52,8 @@ const cart = require("./routes/cart");
 app.use("/api", cart);
 const order = require("./routes/order");
 app.use("/api", order);
+const imagekitAuth = require("./routes/imageKitAuth");
+app.use("/api", imagekitAuth);
 
 app.get('/', (req, res) => {
     console.log("Request received at '/'");

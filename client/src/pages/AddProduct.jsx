@@ -1,144 +1,107 @@
 import React, { useEffect, useState } from 'react'
 import AdminHeader from '../components/AdminHeader.jsx';
-import SearchIcon from '@mui/icons-material/Search';
 import axios from '../hooks/AxiosConfig.js';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import ImageKit from 'imagekit-javascript';
 
 function AddProduct() {
-    const [products, setProducts] = useState([]);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [prodCategory, setProdCategory] = useState('All');
-    const [searchValue, setSearchValue] = useState('');
-    
+    const [file, setFile] = useState(null);
+    const [imgUrl, setImgUrl] = useState('');
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    const handleUpload = async () => {
+        const auth = await axios.get('/auth');
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        const imagekit = new ImageKit({
+            publicKey: 'public_kmsnL4qBvga+0fwoVrqxUbM8c94=',
+            urlEndpoint: 'https://ik.imagekit.io/cafedejur',
+            authenticationEndpoint: 'http://localhost:3001/api/auth',
+        });
+
+        imagekit.upload(
+            {
+                file: file,
+                fileName: file.name,
+            },
+            (err, result) => {
+                if (err) console.error(err);
+                else console.log('Upload success:', result.url);
+            }
+        );
     };
 
     useEffect(() => {
-        const getProducts = async () => {
-            try {
-                const res = await axios.get('/getProducts');
-                setProducts(res.data.productList);
-            } catch (err) {
-                console.error('Failed to fetch products:', err);
+        return () => {
+            if (imgUrl) {
+                URL.revokeObjectURL(imgUrl);
             }
-        }
+        };
+    }, [imgUrl]);
 
-        getProducts();
-    }, []);
-
-
-    const filteredProducts = products.filter(product => {
-        const categoryMatch = prodCategory === 'All' || product.category === prodCategory;
-
-        const searchMatch =
-            product.productName.toLowerCase().includes(searchValue.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchValue.toLowerCase()) ||
-            (product.min_price && product.min_price.toString().includes(searchValue)) ||
-            (product.max_price && product.max_price.toString().includes(searchValue)) ||
-            (product.base_price && product.base_price.toString().includes(searchValue));
-
-        return categoryMatch && (searchValue === '' || searchMatch);
-    }).sort((a, b) => {
-        const priceA = a.min_price ?? a.base_price ?? 0;
-        const priceB = b.min_price ?? b.base_price ?? 0;
-        return priceA - priceB;
-    });
+    const inputDivStyle = `flex flex-row justify-between items-start w-full mt-5`;
+    const labelStyle = `font-noticia text-base`;
+    const inputFieldStyle = `p-2 font-noticia bg-white text-gray-600 w-2/3 outline-none border-1 border-gray-400 rounded-md text-base`;
 
     return (
         <div className='flex flex-col w-full lg:flex-row bg-gray-100 items-start justify-start'>
             <AdminHeader />
             <section id='add-product' className='w-full h-screen pt-35 flex flex-col items-center justify-start xl:h-screen xl:pt-15 overflow-y-auto'>
-                <div className='w-[90%] xl:w-[85%] flex flex-col items-start justify-start'>
-                    <form className='flex w-[60%] items-center px-2 border-b-2 border-gray-300 py-1'>
-                        <SearchIcon className='text-gray-600 mr-2' />
-                        <input
-                            className='font-noticia w-full text-base focus:outline-none'
-                            type='text'
-                            placeholder='Search here'
-                            value={searchValue}
-                            onChange={(e) => setSearchValue(e.target.value)}
-                        />
-                    </form>
+                <div className='w-[90%] flex flex-col items-start justify-start pb-15 xl:w-[70%] 2xl:w-[60%]'>
+                    <p className='font-noticia text-xl font-bold mb-3'>Add Product</p>
 
-                    <button className='bg-lightBrownBG py-2 px-4 font-noticia cursor-pointer mt-4'>Add Product</button>
-
-                    <div className='flex flex-col w-full pb-10 pt-5 mt-5 xl:pb-20'>
-                        <div className='flex flex-row mb-3'>
-                            <p className='font-noticia'>Filter: </p>
-                            <select className='font-noticia ml-2 outline-none border-1 border-gray-500 px-5 cursor-pointer' name="" value={prodCategory} onChange={e => setProdCategory(e.target.value)}>
-                                <option value="All">All</option>
+                    <div className='w-full flex flex-col items-start justify-start'>
+                        <div className={inputDivStyle}>
+                            <label htmlFor="" className={labelStyle}>Name: </label>
+                            <input type="text" className={inputFieldStyle} />
+                        </div>
+                        <div className={inputDivStyle}>
+                            <label htmlFor="" className={labelStyle}>Description: </label>
+                            <textarea rows={5} className={inputFieldStyle} />
+                        </div>
+                        <div className={inputDivStyle}>
+                            <label htmlFor="" className={labelStyle}>Category: </label>
+                            <select name="" id="" className={inputFieldStyle}>
                                 <option value="Beverage">Beverage</option>
                                 <option value="Croffle">Croffle</option>
                                 <option value="Pasta">Pasta</option>
                                 <option value="Silog">Silog</option>
                             </select>
                         </div>
+                        <div className={inputDivStyle}>
+                            <label htmlFor="" className={labelStyle}>Price: </label>
+                            <div className='flex flex-row font-noticia bg-white items-center justify-start text-gray-600 w-2/3 outline-none border-1 border-gray-400 rounded-md'>
+                                <p className='font-noticia text-base px-4 border-r-2 border-gray-300 py-2'>₱</p>
+                                <input type="number" className='p-2 font-noticia bg-white text-gray-600 w-2/3 outline-none text-base' />
+                            </div>
+                        </div>
+                        <div className={inputDivStyle}>
+                            <label htmlFor="" className={labelStyle}>Image: </label>
+                            <div className='flex flex-col w-2/3'>
+                                <input
+                                    className='p-2 font-noticia bg-white text-gray-600 outline-none border-1 border-gray-400 rounded-md text-base'
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const selectedFile = e.target.files[0];
+                                        setFile(selectedFile);
+                                        if (selectedFile) {
+                                            setImgUrl(URL.createObjectURL(selectedFile)); // <-- preview without upload
+                                        } else {
+                                            setImgUrl('');
+                                        }
+                                    }}
+                                />
+                                {imgUrl && (
+                                    <div className='mt-3'>
+                                        <p className='font-noticia text-sm text-gray-500 mb-1'>Preview:</p>
+                                        <img
+                                            src={imgUrl}
+                                            alt="Selected Preview"
+                                            className='w-[200px] h-auto border border-gray-300 rounded-md shadow'
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
-                        <Paper className='w-full overflow-auto'>
-                            <TableContainer className='max-h-300' style={{ minWidth: '100%' }}>
-                                <Table stickyHeader aria-label="sticky table" style={{ minWidth: 'max-content' }}>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Name</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Price</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Category</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Sold</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Actions</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-
-                                    <TableBody>
-                                        {filteredProducts
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((product) => {
-                                                return (
-                                                    <TableRow hover role="checkbox" tabIndex={-1} key={product.productID}>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.productName}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.min_price && product.max_price
-                                                            ? (product.min_price === product.max_price
-                                                                ? `₱${Number(product.min_price).toFixed(2)}`
-                                                                : `₱${Number(product.min_price).toFixed(2)} - ₱${Number(product.max_price).toFixed(2)}`)
-                                                            : `₱${Number(product.base_price).toFixed(2)}`}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.category}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.totalSold === null ? '0' : product.totalSold}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>
-                                                            <button className='cursor-pointer'><EditTwoToneIcon className='text-green-600 cursor-pointer' /></button>
-                                                            <button className='cursor-pointer'><DeleteTwoToneIcon className='text-red-500 cursor-pointer' /></button>
-                                                        </TableCell>
-
-                                                    </TableRow>)
-                                            })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-
-                            <TablePagination
-                                rowsPerPageOptions={[10, 25, 100]}
-                                component="div"
-                                count={filteredProducts.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </Paper>
                     </div>
                 </div>
             </section>

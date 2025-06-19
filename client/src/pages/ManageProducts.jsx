@@ -20,6 +20,12 @@ function ManageProducts() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [prodCategory, setProdCategory] = useState('All');
     const [searchValue, setSearchValue] = useState('');
+    const [confirmDelModal, setConfirmDelModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    useEffect(() => {
+        document.title = `Products | CAFÉ de JÚR`;
+    }, []);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -61,9 +67,26 @@ function ManageProducts() {
         return priceA - priceB;
     });
 
+    const cancelDelBtn = `font-noticia cursor-pointer rounded-md py-2 w-[45%]`;
+
     return (
         <div className='flex flex-col w-full lg:flex-row bg-gray-100 items-start justify-start'>
             <AdminHeader />
+
+            {confirmDelModal && (
+                <div className='fixed top-0 left-0 h-full w-full flex items-center justify-center z-100 bg-black/50'>
+                    <div className='bg-white px-5 py-10 rounded-xl shadow-lg w-3/4 md:w-2/4 xl:w-1/3 text-center items-center justify-center'>
+                        <DeleteTwoToneIcon sx={{ color: 'red', fontSize: 50 }} />
+                        <p className='font-inika font-bold text-lg'>Are you sure you want to remove all items from your cart?</p>
+                        <p className='font-inika text-base pt-2 pb-5'>This action cannot be undone.</p>
+
+                        <div className='flex flex-row justify-center gap-5'>
+                            <button className={`${cancelDelBtn} border-gray-300 border-2`} onClick={() => setConfirmDelModal(false)}>Cancel</button>
+                            <button className={`${cancelDelBtn} bg-red-500 text-white`} onClick={() => console.log(selectedProduct)}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            )}
             <section id='admin-products' className='w-full h-screen pt-35 flex flex-col items-center justify-start xl:h-screen xl:pt-15 overflow-y-auto'>
                 <div className='w-[90%] xl:w-[85%] flex flex-col items-start justify-start'>
                     <form className='flex w-[60%] items-center px-2 border-b-2 border-gray-300 py-1'>
@@ -82,7 +105,7 @@ function ManageProducts() {
                     <div className='flex flex-col w-full pb-10 pt-5 mt-5 xl:pb-20'>
                         <div className='flex flex-row mb-3'>
                             <p className='font-noticia'>Filter: </p>
-                            <select className='font-noticia ml-2 outline-none border-1 border-gray-500 px-5 cursor-pointer' name="" value={prodCategory} onChange={e => setProdCategory(e.target.value)}>
+                            <select className='font-noticia ml-2 outline-none border-1 border-gray-500 px-5 cursor-pointer bg-white' name="" value={prodCategory} onChange={e => setProdCategory(e.target.value)}>
                                 <option value="All">All</option>
                                 <option value="Beverage">Beverage</option>
                                 <option value="Croffle">Croffle</option>
@@ -96,11 +119,11 @@ function ManageProducts() {
                                 <Table stickyHeader aria-label="sticky table" style={{ minWidth: 'max-content' }}>
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Name</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Price</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Category</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Sold</TableCell>
-                                            <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem', fontWeight: 'bold' }}>Actions</TableCell>
+                                            <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem', fontWeight: 'bold' }}>Name</TableCell>
+                                            <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem', fontWeight: 'bold' }}>Price</TableCell>
+                                            <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem', fontWeight: 'bold' }}>Category</TableCell>
+                                            <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem', fontWeight: 'bold' }}>Sold</TableCell>
+                                            <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem', fontWeight: 'bold' }}>Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
 
@@ -110,17 +133,17 @@ function ManageProducts() {
                                             .map((product) => {
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={product.productID}>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.productName}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.min_price && product.max_price
+                                                        <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.productName}</TableCell>
+                                                        <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.min_price && product.max_price
                                                             ? (product.min_price === product.max_price
                                                                 ? `₱${Number(product.min_price).toFixed(2)}`
                                                                 : `₱${Number(product.min_price).toFixed(2)} - ₱${Number(product.max_price).toFixed(2)}`)
                                                             : `₱${Number(product.base_price).toFixed(2)}`}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.category}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>{product.totalSold === null ? '0' : product.totalSold}</TableCell>
-                                                        <TableCell sx={{ fontFamily: 'noticia', fontSize: '1rem' }}>
+                                                        <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.category}</TableCell>
+                                                        <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.totalSold === null ? '0' : product.totalSold}</TableCell>
+                                                        <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>
                                                             <button className='cursor-pointer'><EditTwoToneIcon className='text-green-600 cursor-pointer' /></button>
-                                                            <button className='cursor-pointer'><DeleteTwoToneIcon className='text-red-500 cursor-pointer' /></button>
+                                                            <button className='cursor-pointer' onClick={() => {setConfirmDelModal(true); setSelectedProduct(product.productID)}}><DeleteTwoToneIcon className='text-red-500 cursor-pointer' /></button>
                                                         </TableCell>
 
                                                     </TableRow>)
