@@ -13,8 +13,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function ManageProducts() {
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -69,20 +72,41 @@ function ManageProducts() {
 
     const cancelDelBtn = `font-noticia cursor-pointer rounded-md py-2 w-[45%]`;
 
+    const handleDeleteProduct = async(productID) => {
+        try{
+            const res = await axios.put('/deleteProduct', {productID});
+            if(res.data.message === 'Product deleted'){
+                toast.success('Product deleted', {
+                    autoClose: 2000
+                })
+                setProducts(prev => 
+                    prev.filter(p => p.productID !== selectedProduct.productID)
+                );
+                setConfirmDelModal(false);
+            }
+        } catch(err){
+            console.error('Failed to delete product:', err);
+        }
+    }
+
+    const handleEditProduct = async(product) => {
+        navigate('/edit-product', { state: { product } });
+    }
+
     return (
         <div className='flex flex-col w-full lg:flex-row bg-gray-100 items-start justify-start'>
             <AdminHeader />
-
-            {confirmDelModal && (
+            <ToastContainer position='bottom-center' hideProgressBar={true} />
+            {confirmDelModal && selectedProduct && (
                 <div className='fixed top-0 left-0 h-full w-full flex items-center justify-center z-100 bg-black/50'>
                     <div className='bg-white px-5 py-10 rounded-xl shadow-lg w-3/4 md:w-2/4 xl:w-1/3 text-center items-center justify-center'>
                         <DeleteTwoToneIcon sx={{ color: 'red', fontSize: 50 }} />
-                        <p className='font-inika font-bold text-lg'>Are you sure you want to remove all items from your cart?</p>
+                        <p className='font-inika font-bold text-lg'>Are you sure you want to remove <span className='text-red-500'>{selectedProduct.productName}</span> from the product list?</p>
                         <p className='font-inika text-base pt-2 pb-5'>This action cannot be undone.</p>
 
                         <div className='flex flex-row justify-center gap-5'>
                             <button className={`${cancelDelBtn} border-gray-300 border-2`} onClick={() => setConfirmDelModal(false)}>Cancel</button>
-                            <button className={`${cancelDelBtn} bg-red-500 text-white`} onClick={() => console.log(selectedProduct)}>Delete</button>
+                            <button className={`${cancelDelBtn} bg-red-500 text-white`} onClick={() => handleDeleteProduct(selectedProduct.productID)}>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -100,7 +124,7 @@ function ManageProducts() {
                         />
                     </form>
 
-                    <HashLink to='/add-products' className='bg-lightBrownBG py-2 px-4 font-noticia cursor-pointer mt-4'>Add Product</HashLink>
+                    <HashLink to='/add-products' className='bg-lightBrownBG py-2 px-4 font-noticia cursor-pointer mt-4 rounded-md'>Add Product</HashLink>
 
                     <div className='flex flex-col w-full pb-10 pt-5 mt-5 xl:pb-20'>
                         <div className='flex flex-row mb-3'>
@@ -142,8 +166,8 @@ function ManageProducts() {
                                                         <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.category}</TableCell>
                                                         <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>{product.totalSold === null ? '0' : product.totalSold}</TableCell>
                                                         <TableCell sx={{ fontFamily: 'Noticia Text', fontSize: '1rem' }}>
-                                                            <button className='cursor-pointer'><EditTwoToneIcon className='text-green-600 cursor-pointer' /></button>
-                                                            <button className='cursor-pointer' onClick={() => {setConfirmDelModal(true); setSelectedProduct(product.productID)}}><DeleteTwoToneIcon className='text-red-500 cursor-pointer' /></button>
+                                                            <button className='cursor-pointer' onClick={() => handleEditProduct(product)}><EditTwoToneIcon className='text-green-600 cursor-pointer' /></button>
+                                                            <button className='cursor-pointer' onClick={() => {setConfirmDelModal(true); setSelectedProduct(product)}}><DeleteTwoToneIcon className='text-red-500 cursor-pointer' /></button>
                                                         </TableCell>
 
                                                     </TableRow>)

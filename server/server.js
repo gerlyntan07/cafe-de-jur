@@ -16,6 +16,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 // Session store
 const sessionStore = new MySQLStore({
@@ -54,6 +55,8 @@ const order = require("./routes/order");
 app.use("/api", order);
 const imagekitAuth = require("./routes/imageKitAuth");
 app.use("/api", imagekitAuth);
+const stripeRoute = require("./routes/stripe");
+app.use("/api", stripeRoute);
 
 app.get('/', (req, res) => {
     console.log("Request received at '/'");

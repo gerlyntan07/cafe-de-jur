@@ -12,7 +12,7 @@ import Cart from './Cart.jsx';
 import axios from '../hooks/AxiosConfig.js';
 import { useNavigate } from 'react-router-dom';
 
-function Header({ toggleLogin, isAuthenticated, userName }) {
+function Header({ toggleLogin, isAuthenticated, userName, userRole }) {
     const navigate = useNavigate();
     const logout = UseLogout();
     const location = useLocation();
@@ -181,7 +181,10 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                         <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
                             } flex flex-col items-center pt-6`}>
                             <button className='w-[85%] flex items-center justify-end my-5' onClick={toggleMenu}><BsX color='white' size={25} /></button>
-                            <HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            {userRole === 'Admin' ? (
+                                <HashLink className={mobileLinkClass('#admin-dashboard')} smooth to="/admin-dashboard">DASHBOARD</HashLink>)
+                                : (<HashLink className={mobileLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            )}                     
                             <HashLink className={mobileLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
                             <HashLink className={mobileLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
                             <HashLink className={mobileLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>
@@ -191,7 +194,7 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                                     <HashLink className={myAccLinkClass('#myAcc')} to="/myAcc">MY ACCOUNT</HashLink>
                                     <button className='w-[90%] cursor-pointer rounded font-inika text-[15px] text-white text-center px-15 py-3 transition-all duration-100' onClick={logout}>LOG OUT</button>
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
                     ) : (
                         <div className={`fixed top-0 right-0 h-full w-[70%] bg-darkBrown shadow-lg z-[10000] transform transition-transform duration-300 ease-in-out ${menuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -223,7 +226,11 @@ function Header({ toggleLogin, isAuthenticated, userName }) {
                             <img src={logo} alt="" className="w-[40%] overflow-visible object-contain 2xl:w-[35%]" />
                         </div>
                         <div className="w-[60%] h-full flex flex-row items-center justify-center gap-15 2xl:gap-20">
-                            <HashLink className={desktopLeftLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            {isAuthenticated === true && 
+                                userRole === 'Admin' ? (
+                                <HashLink className={desktopLeftLinkClass('#admin-dashboard')} smooth to="/admin-dashboard">DASHBOARD</HashLink>)
+                                : (<HashLink className={desktopLeftLinkClass('#home')} smooth to="/#home">HOME</HashLink>
+                            )}                                                                         
                             <HashLink className={desktopLeftLinkClass('#menu')} smooth to="/#menu">MENU</HashLink>
                             <HashLink className={desktopLeftLinkClass('#about')} smooth to="/#about">ABOUT</HashLink>
                             <HashLink className={desktopLeftLinkClass('#contact')} smooth to="/#contact">CONTACT</HashLink>

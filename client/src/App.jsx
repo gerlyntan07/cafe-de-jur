@@ -11,6 +11,10 @@ import ProductSearch from './pages/ProductSearch.jsx';
 import Checkout from './pages/Checkout.jsx';
 import ManageProducts from './pages/ManageProducts.jsx';
 import AddProduct from './pages/AddProduct.jsx';
+import EditProduct from './pages/EditProduct.jsx';
+import SuccessPayment from './pages/SuccessPayment.jsx';
+import CancelPayment from './pages/CancelPayment.jsx';
+import DeliveryInfo from './pages/DeliveryInfo.jsx';
 
 import PrivateRoute from './hooks/PrivateRoute.jsx';
 import './App.css';
@@ -24,7 +28,7 @@ function App() {
         <Route path='/email-verified' element={<EmailVerified />} />
         <Route path='/menu' element={<Menu />} />
         <Route path='/view-product' element={<ViewProduct />} />
-        <Route path='/product-search/:search' element={<ProductSearch />} />        
+        <Route path='/product-search/:search' element={<ProductSearch />} /> 
 
         <Route path='/redirect-after-login' element={<PrivateRoute />} />
         <Route path='/myAcc' element={<PrivateRoute requiredRole='customer'><MyAccount /></PrivateRoute>} />
@@ -32,6 +36,10 @@ function App() {
         <Route path='/admin-dashboard' element={<PrivateRoute requiredRole='admin'><AdminDashboard /></PrivateRoute>} />        
         <Route path='/admin-products' element={<PrivateRoute requiredRole='admin'><ManageProducts /></PrivateRoute>} />
         <Route path='/add-products' element={<PrivateRoute requiredRole='admin'><AddProduct /></PrivateRoute>} />
+        <Route path='/edit-product' element={<PrivateRoute requiredRole='admin'><EditProduct /></PrivateRoute>} />
+        <Route path='/payment-success' element={<PrivateRoute requiredRole='customer'><SuccessPayment /></PrivateRoute>} />
+        <Route path='/payment-cancel' element={<PrivateRoute requiredRole='customer'><CancelPayment /></PrivateRoute>} />
+        <Route path='/delivery-info' element={<PrivateRoute requiredRole='customer'><DeliveryInfo /></PrivateRoute>} />
       </Routes>
     </Router>
   )

@@ -19,6 +19,7 @@ function Landing() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userRole, setUserRole] = useState('');
   useEffect(() => {
     axios.get('/session')
       .then((res) => {
@@ -26,6 +27,7 @@ function Landing() {
           setIsAuthenticated(false);
         } else {          
           setUserName(res.data.firstname);
+          setUserRole(res.data.userRole);
           setIsAuthenticated(true);
         }
       })
@@ -46,7 +48,7 @@ function Landing() {
   
   return (
     <>
-      <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} />
+      <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} userRole={userRole} />
       {isLoginOpen && <LoginPopup toggleLogin={toggleLogin} />}
       <div id='home' className='h-[100dvh] w-full items-center flex flex-col justify-center'>
         <p className='font-libre text-[2.5rem] md:text-[4rem] md:leading-none 2xl:text-[7rem]'>CAFÉ de JÚR</p>
