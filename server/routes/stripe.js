@@ -2,8 +2,9 @@
 const express = require('express');
 const Stripe = require('stripe');
 const router = express.Router();
+require('dotenv').config()
 
-const stripe = new Stripe('sk_test_51RbmEWQD9NH11xrStqYZi6WoaKj7ndp4h1azzr2UGEltmStfpSmOJYYkFEI3J1lbF52oW2IQTofuMbTtuYl6bjfV008psuaJzB');
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // POST /create-checkout-session
 router.post('/create-checkout-session', async (req, res) => {
