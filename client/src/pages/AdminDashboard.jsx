@@ -43,7 +43,7 @@ function AdminDashboard() {
       <section id='admin-dashboard' className='bg-gray-100 w-full h-screen flex items-center justify-center lg:items-start'>
         <div className='flex flex-col w-full items-center justify-center gap-10 md:flex-row md:w-[90%] xl:w-[70%] 2xl:w-[60%] xl:gap-15 lg:mt-50'>
           <div className={cardStyle} onClick={() => navigate('/total-orders')}>
-            <p className={cardTitle}>Total Orders</p>
+            <p className={cardTitle}>Total Sold</p>
             <p className={cardValue}>{soldCount === null || soldCount === 0 ? '0' : soldCount}</p>
           </div>
 

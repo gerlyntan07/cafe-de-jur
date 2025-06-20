@@ -116,12 +116,12 @@ function Landing() {
 
       {/* Contact*/}
       <div id='contact' className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
-        <p className='font-libre text-xl md:text-[2rem]'>CONTACT US: </p>
+        <p className='font-libre text-xl md:text-[2rem]'>CONTACT US</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
 
         <div className="w-[80%] lg:w-[50%] xl:w-[35%] flex flex-row justify-around pb-14">
-          <a href="#" target="_blank" rel="noopener noreferrer">  <FaFacebookSquare className="text-[5rem] md:text-[10rem] text-darkAccent"  /></a>
-          <a href="#" target="_blank" rel="noopener noreferrer"> <FaInstagram className="text-[5rem] md:text-[10rem] text-darkAccent" /></a>
+          <a href="https://www.facebook.com/profile.php?id=61558396151633" target="_blank" rel="noopener noreferrer">  <FaFacebookSquare className="text-[5rem] md:text-[10rem] text-darkAccent"  /></a>
+          <a href="https://www.instagram.com/cafedejur/" target="_blank" rel="noopener noreferrer"> <FaInstagram className="text-[5rem] md:text-[10rem] text-darkAccent" /></a>
         </div>
 
         <p className="text-left font-noticia"> <b>Address:</b> B19 L43 PH2 Sampaguita Street Soldiers Hills IV Subd, Molino 6, Bacoor, Philippines. <br />
