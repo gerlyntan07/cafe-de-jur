@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 
 const MyAccAddress = () => {
+    document.title = `Address | CAFÉ de JÚR`
+
     const [isAdd, setIsAdd] = useState(false);
     const [noAddress, setNoAddress] = useState(false);
     const [addressInfo, setAddressInfo] = useState('');

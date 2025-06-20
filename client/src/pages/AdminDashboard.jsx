@@ -4,8 +4,10 @@ import axios from '../hooks/AxiosConfig.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function AdminDashboard() {
+  const navigate = useNavigate();
   const [prodCount, setProdCount] = useState(null);
   const [soldCount, setSoldCount] = useState(null);
 
@@ -40,12 +42,12 @@ function AdminDashboard() {
       <AdminHeader />
       <section id='admin-dashboard' className='bg-gray-100 w-full h-screen flex items-center justify-center lg:items-start'>
         <div className='flex flex-col w-full items-center justify-center gap-10 md:flex-row md:w-[90%] xl:w-[70%] 2xl:w-[60%] xl:gap-15 lg:mt-50'>
-          <div className={cardStyle}>
+          <div className={cardStyle} onClick={() => navigate('/total-orders')}>
           <p className={cardTitle}>Total Orders</p>
           <p className={cardValue}>{soldCount === null || soldCount === 0 ? '0' : soldCount}</p>
         </div>
 
-        <div className={cardStyle}>
+        <div className={cardStyle} onClick={() => navigate('/admin-products')}>
           <p className={cardTitle}>Total Products</p>
           <p className={cardValue}>{prodCount}</p>
         </div>

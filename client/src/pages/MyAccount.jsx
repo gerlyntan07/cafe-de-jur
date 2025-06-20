@@ -4,8 +4,10 @@ import menubg from '../assets/menubg.png';
 import axios from '../hooks/AxiosConfig.js';
 import { ToastContainer, toast } from 'react-toastify';
 import MyAccAddress from '../components/MyAccAddress.jsx';
+import OrderHistory from '../components/OrderHistory.jsx';
 
 function MyAccount({ userData, isAuthenticated }) {
+  document.title = `Profile | CAFÉ de JÚR`
   const [tab, setTab] = useState(1);
   const [formData, setFormData] = useState({
     firstname: '',
@@ -243,6 +245,10 @@ function MyAccount({ userData, isAuthenticated }) {
 
         {tab === 2 && (
           <MyAccAddress />
+        )}
+
+        {tab === 3 && (
+          <OrderHistory />
         )}
       </section>
     </>

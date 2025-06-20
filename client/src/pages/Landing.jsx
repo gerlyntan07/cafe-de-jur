@@ -11,8 +11,10 @@ import food1 from '../assets/food1.png';
 import food2 from '../assets/food2.png';
 import food3 from '../assets/food3.png';
 import axios from '../hooks/AxiosConfig.js';
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 
-function Landing() {  
+function Landing() {
   useEffect(() => {
     document.title = "CAFÉ de JÚR";
   }, []);
@@ -23,9 +25,9 @@ function Landing() {
   useEffect(() => {
     axios.get('/session')
       .then((res) => {
-        if (res.data.loggedIn === false) {          
+        if (res.data.loggedIn === false) {
           setIsAuthenticated(false);
-        } else {          
+        } else {
           setUserName(res.data.firstname);
           setUserRole(res.data.userRole);
           setIsAuthenticated(true);
@@ -45,7 +47,7 @@ function Landing() {
       document.title = "CAFÉ de JÚR";
     }
   }
-  
+
   return (
     <>
       <Header toggleLogin={toggleLogin} isAuthenticated={isAuthenticated} userName={userName} userRole={userRole} />
@@ -73,7 +75,7 @@ function Landing() {
 
       {/* MENU */}
       <div id='menu' style={{ backgroundImage: `url(${menubg})` }} className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
-        <p className='font-libre text-[18px] md:text-[20px]'>FOODS MENU</p>
+        <p className='font-libre text-xl md:text-[2rem]'>FOODS MENU</p>
         <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
 
         <div className='flex flex-row flex-wrap w-[80%] md:w-[70%] items-center justify-evenly md:justify-center gap-8'>
@@ -82,6 +84,54 @@ function Landing() {
           <MenuTypes imgSource={food2} wSize='h-[105%]' menuType='Silog Meals' />
           <MenuTypes imgSource={food3} wSize='h-[110%] rotate-180' menuType='Pasta' />
         </div>
+
+        <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
+      </div>
+
+      {/* About */}
+      <div id="about" className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]">
+        <p className='font-libre text-xl md:text-[2rem] text-center'>ABOUT</p>
+        
+
+
+        <div className="w-6/7 bg-[#f5e9d3] shadow-lg rounded-2xl p-6 md:p-10 mt-10">
+          <p className="text-center pb-5 font-noticia"> <b>Café de JÚR</b> is a cozy, community-oriented café located at <b>B19 L43 PH2 Sampaguita Street Soldiers Hills IV Subd, Molino 6, Bacoor, Philippines.</b> </p>
+
+          <p className="text-center pb-5 font-noticia"> <b>O</b>pen daily from <b>10 AM to 9 PM</b>, it offers dine-in, take-out, pick-up, and delivery options, </p>
+
+          <p className="text-center pb-5 font-noticia"> <b>W</b>elcoming guests to savour freshly brewed coffee, pastries, and a warm ambiance. </p>
+
+          <p className="text-center pb-5 font-noticia">The Café’s menu features a variety of specialty drinks including their <b>“Jur’s Signature Blend,” Hot & Iced Cappuccino, Spanish & Caramel Lattes, Iced</b> <br />
+            <b>Americano</b>, plus classic <b>Hot American</b> and <b>Flavored iced coffees</b> like vanilla . </p>
+
+          <p className="text-center pb-14 font-noticia"> They recently refreshed their offerings to better serve the community, and now even offer 10‑piece pastry trays for group orders at around <b>₱80</b>+, with <br />
+            table reservations available .</p>
+
+          <p className="text-center font-noticia"> Celebrating over a year in business, <b>Café de JÚR</b> steadily nurtures a loyal customer base while maintaining affordable pricing and high-quality beverages.</p>
+        </div>
+
+        <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
+      </div>
+
+
+      {/* Contact*/}
+      <div id='contact' className='w-full bg-cover flex flex-col items-center justify-center relative pt-[3rem] pb-[5rem] md:pb-[10rem] md:pt-[5rem]'>
+        <p className='font-libre text-xl md:text-[2rem]'>CONTACT US: </p>
+        <div className='h-[2px] w-[75%] bg-[#6F4E37] mt-2 mb-[3rem] md:mb-[5rem]' />
+
+        <div className="w-[80%] lg:w-[50%] xl:w-[35%] flex flex-row justify-around pb-14">
+          <a href="#" target="_blank" rel="noopener noreferrer">  <FaFacebookSquare className="text-[5rem] md:text-[10rem] text-darkAccent"  /></a>
+          <a href="#" target="_blank" rel="noopener noreferrer"> <FaInstagram className="text-[5rem] md:text-[10rem] text-darkAccent" /></a>
+        </div>
+
+        <p className="text-left font-noticia"> <b>Address:</b> B19 L43 PH2 Sampaguita Street Soldiers Hills IV Subd, Molino 6, Bacoor, Philippines. <br />
+          <b>Opening Hours:</b> 10 AM – 9 PM (Daily) <br /> <br />
+          <b>Available Services:</b> <br />
+          - Dine-in <br />
+          -Take‑out & Pick‑up <br />
+          - Delivery (Cash, GCash, Bank Transfer) <br />  <br />
+          <b>Payments Accepted:</b> Cash, GCash, bank transfer
+        </p>
 
         <div className='w-full h-[1rem] md:h-[1.5rem] bg-[#6F4E37] absolute bottom-0' />
       </div>
