@@ -94,25 +94,23 @@ function OrderHistory() {
 
             {selectedOrder && (
                 <div className='absolute top-0 left-0 bg-black/50 w-full h-full flex items-center justify-center z-10000'>
-                    <div className='mt-10 w-[90%] md:w-[60%] lg:w-[40%] bg-white p-5 rounded-lg shadow-md h-[70%] overflow-y-auto'>
+                    <div className='mt-10 w-[90%] md:w-[60%] lg:w-[40%] 2xl:w-[30%] bg-white p-5 rounded-lg shadow-md h-[70%] 2xl:h-[60%] overflow-y-auto'>
                         <div className='flex flex-row w-full justify-between items-start mb-3'>
                             <h2 className='text-xl font-bold font-noticia'>Order #{selectedOrder.orderID}</h2>
-                            <button onClick={() => setSelectedOrder(null)}>x</button>
+                            <button className='font-semibold text-gray-400 text-xl cursor-pointer' onClick={() => setSelectedOrder(null)}>x</button>
                         </div>                        
 
                         <p className='font-noticia'><strong>Order Date:</strong> {formatDate(selectedOrder.orderedAt)}</p>
                         <p className='font-noticia'><strong>Total:</strong> ₱{paymentDetails?.amountPaid}</p>
                         <p className='font-noticia'><strong>Payment Method:</strong> {paymentDetails?.paymentMethod === 'COD' ? 'Cash on Delivery' : 'Debit/Credit Card'}</p>
-                        <p className='font-noticia'><strong>Paid At:</strong> {formatDate(paymentDetails?.paidAt)}</p>
                         <p className='font-noticia'><strong>Delivery Address:</strong> {paymentDetails?.address}</p>
-                        <p className='font-noticia'><strong>Delivered At:</strong> {paymentDetails?.deliveredAt ? formatDate(paymentDetails.deliveredAt) : 'Not delivered yet'}</p>
 
                         <hr className='my-4' />
 
                         <h3 className='font-bold text-lg mb-2 font-noticia'>Items:</h3>
                         {groupOrderItems(orderDetails).map((item, idx) => (
                             <div key={idx} className='mb-3 p-3 bg-inputGray rounded'>
-                                <p className='font-noticia'><strong>{item.quantity}x {item.productName}</strong> ₱{item.totalItemPrice}</p>
+                                <p className='font-noticia'><strong>{item.quantity}x {item.productName}</strong> — ₱{item.totalItemPrice}</p>
                                 {item.addOns.length > 0 && (
                                     <p className='text-sm text-gray-600'>
                                         {item.addOns.join(', ')}

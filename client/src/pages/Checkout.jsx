@@ -97,14 +97,14 @@ function Checkout() {
 
         if (selectedPaymentMethod === 'Card') {
             // Stripe
-            const res = await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: 'COD', address: userAddress });
+            const res = await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: selectedPaymentMethod, address: userAddress });
             if (res.data.success) {
                 const { data } = await axios.post('/create-checkout-session', { items });
                 window.location.href = data.url;
             }
         } else {
             // COD
-            await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: 'COD', address: userAddress });
+            await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: selectedPaymentMethod, address: userAddress });
             toast.success("Order placed successfully!");
             navigate('/delivery-info');
         }
