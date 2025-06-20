@@ -99,6 +99,7 @@ function Cart({ toggleCart }) {
   }
 
   const normalizedItems = cartDetails.map(item => ({
+    cartID: item.cartItemID,
   productID: item.productID,
   variant: item.variantSize,
   variantID: item.variantID,

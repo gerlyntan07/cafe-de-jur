@@ -75,6 +75,7 @@ function Checkout() {
 
 
     //Handle payment
+    const [userAddress, setUserAddress] = useState('');
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const handlePaymentChange = (e) => {
         setSelectedPaymentMethod(e.target.value);
@@ -88,20 +89,25 @@ function Checkout() {
             })
             return;
         }
+        const cleanedItems = items.map(item => ({
+            ...item,
+            productID: item.productID ?? parseInt(item.selectedProductID),
+        }));
 
-        console.log(`Order: `, items);
-        console.log(`Payment Method: `, selectedPaymentMethod);
 
         if (selectedPaymentMethod === 'Card') {
-    // Create session with Stripe
-    const { data } = await axios.post('/create-checkout-session', { items });
-    window.location.href = data.url;
-  } else {
-    // COD flow: store order then navigate
-    await axios.post('/store-order', { items, totalOrder, paymentMethod: 'COD' });
-    toast.success("Order placed successfully!");
-    navigate('/delivery-info');
-  }
+            // Stripe
+            const res = await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: 'COD', address: userAddress });
+            if (res.data.success) {
+                const { data } = await axios.post('/create-checkout-session', { items });
+                window.location.href = data.url;
+            }
+        } else {
+            // COD
+            await axios.post('/store-order', { cleanedItems, totalItemPrice, paymentMethod: 'COD', address: userAddress });
+            toast.success("Order placed successfully!");
+            navigate('/delivery-info');
+        }
     }
 
     return (
@@ -129,7 +135,7 @@ function Checkout() {
                 <div className='w-full xl:w-[90%] flex flex-col md:flex-row bg-inputGray pb-25 items-center justify-center md:items-start gap-5 lg:gap-10'>
                     <div className='w-[90%] md:w-[40%] flex flex-col items-center justify-center gap-5'>
                         <CheckoutContactCard setLoading={setLoading} />
-                        <CheckoutAddressCard setLoading={setLoading} />
+                        <CheckoutAddressCard setLoading={setLoading} userAddress={setUserAddress} />
 
                         <div className='w-full md:w-full rounded-[10px] bg-white shadow-lg flex flex-col items-center justify-center py-5'>
                             <p className='w-full font-noticia font-bold text-lg pb-3 border-b-1 pl-5'>Payment</p>
@@ -138,7 +144,7 @@ function Checkout() {
                                     <div className='flex flex-row items-center justify-start'>
                                         <input type="radio" value='COD' id='MOP' name='payment' onChange={handlePaymentChange} />
                                         <label htmlFor="cod" className="font-noticia text-base text-gray-800 ml-2">Cash on Delivery</label>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 <div className='bg-inputGray w-[90%] flex flex-row pl-3 py-3 rounded-[10px] justify-start'>
                                     <input type="radio" value='Card' id='MOP' name='payment' onChange={handlePaymentChange} />
@@ -195,7 +201,7 @@ function Checkout() {
                     <p className='text-lg font-noticia font-bold'>₱{totalOrder.toFixed(2)}</p>
                 </div>
 
-                <button className='bg-lightBrownBG py-2 px-4 text-lg font-noticia font-bold rounded-full' onClick={handlePlaceOrder}>Place Order</button>
+                <button className='bg-lightBrownBG py-2 px-4 text-lg font-noticia font-bold rounded-full cursor-pointer' onClick={handlePlaceOrder}>Place Order</button>
             </div>
         </>
     )

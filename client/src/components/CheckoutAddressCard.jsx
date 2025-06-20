@@ -3,7 +3,7 @@ import axios from '../hooks/AxiosConfig.js'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
-function CheckoutAddressCard({ setLoading }) {
+function CheckoutAddressCard({ setLoading, userAddress }) {
     const [contactDetails, setContactDetails] = useState({});
     const [addressFields, setAddressFields] = useState({
         region: '',
@@ -19,8 +19,9 @@ function CheckoutAddressCard({ setLoading }) {
             try {
                 setLoading(true);
                 const res = await axios.get('/checkoutUserProfile');
-                const data = res.data.userData;
+                const data = res.data.userData;                
                 setContactDetails(data);
+                userAddress(data.address);
 
                 // Parse address
                 const address = data.address || '';
